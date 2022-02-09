@@ -39,7 +39,7 @@ async def greet(ctx):
 
 @bot.cmmands()
 async def cat(ctx):
-    await ctx.send("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")        
+    await ctx.send("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
 
 
 token = getenv('DISCORD_BOT_TOKEN')
