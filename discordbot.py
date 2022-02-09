@@ -24,12 +24,12 @@ async def yattaze(ctx):
 
 @bot.command()
 async def add(ctx, a: int, b: int):
-    await ctx.send(a+b)
+    await ctx.send(a + b)
 
 
 @bot.command()
 async def multiply(ctx, a: int, b: int):
-    await ctx.send(a*b)
+    await ctx.send(a * b)
 
 
 @bot.command()
