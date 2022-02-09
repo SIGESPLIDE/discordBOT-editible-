@@ -15,6 +15,11 @@ async def on_command_error(ctx, error):
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
+    
+    
+@bot.command()
+async def yattaze(ctx):
+    await ctx.send('やったぜ')
         
 
 token = getenv('DISCORD_BOT_TOKEN')
