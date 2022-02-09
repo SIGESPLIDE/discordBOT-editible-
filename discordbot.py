@@ -37,7 +37,7 @@ async def greet(ctx):
     await ctx.send(":smiley: :wave: Hello, there!")
 
 
-@bot.cmmands()
+@bot.command()
 async def cat(ctx):
     await ctx.send("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
 
