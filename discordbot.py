@@ -14,8 +14,9 @@ async def on_command_error(ctx, error):
 
 @bot.command()
 async def ping(ctx):
-    await ctx.send('pong')
-
+    await ctx.send('pong'):
+async def maji(ctx);
+    await ctx.send('まじ？'):
 
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
