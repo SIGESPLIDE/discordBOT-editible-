@@ -4,11 +4,21 @@ from os import getenv
 import traceback
 import datetime
 import random
-
+import asyncio
 
 client = discord.Client()
 guild_count = len(client.guilds)
 bot = commands.Bot(command_prefix='$')
+
+
+@client.event
+async def on_ready():
+    print("起動")
+    while not client.is_closed():
+        await client.change_presence(activity=discord.Game(name=f"{len(client.guilds)} 鯖で稼働中")
+        await asyncio.sleep(10)
+        await client.change_presence(activity=discord.Game(name="Status 2")
+        await asyncio.sleep(10)
 
 
 @bot.event
@@ -64,9 +74,6 @@ async def info(ctx):
 async def omikuji(ctx):
     OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
     await ctx.send("あなたの運勢は" + random.choice(OmikujiList) + "です")
-
-
-bot = commands.Bot(activity=discord.Game(f'{guild_count} 鯖で稼働中'))
 
 
 token = getenv('DISCORD_BOT_TOKEN')
