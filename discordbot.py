@@ -54,5 +54,10 @@ async def info(ctx):
     await ctx.send(embed=embed)
 
 
+@bot.command()
+async def omikuji(ctx):
+    await exec(open("OMIKUJI.py").read())
+    
+
 token = getenv('DISCORD_BOT_TOKEN')
 bot.run(token)
