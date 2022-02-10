@@ -6,14 +6,13 @@ import datetime
 import random
 import asyncio
 
-client = discord.Client()
-guild_count = len(client.guilds)
 bot = commands.Bot(command_prefix='$')
-
 
 @client.event
 async def on_ready():
     print("起動")
+    client = discord.Client()
+    guild_count = len(client.guilds)
     while not client.is_closed():
         await client.change_presence(activity=discord.Game(name=f"{len(client.guilds)} 鯖で稼働中")
 
