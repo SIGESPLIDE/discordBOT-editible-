@@ -45,13 +45,19 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed.discription(title="SIGESBOT", name="Author", value="<@SIGES_SSSPlide#6921>")
+    embed = discord.Embed(color=0xeee657)
 
-    embed.discription(name="Joined Servers", value=f"{len(bot.guilds)}")
+    embed.add_description(title="SIGESBOT", name="Author", value="<@SIGES_SSSPlide#6921>")
 
-    embed.discription(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot")
+    embed.add_description(name="Joined Servers", value=f"{len(bot.guilds)}")
 
-    embed = discord.Embed(description="this is pre-release bot", color=0xeee657)
+    embed.add_description(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot")
+
+    embed.set_author(name=message.author.display_name, 
+        icon_url=message.author.avatar_url_as(format="png"))
+
+    embed.set_footer(text=f"{message.guild.name} / {message.channel.name}",
+        icon_url=message.guild.icon_url_as(format="png"))
 
     await ctx.send(embed=embed)
 
