@@ -53,12 +53,6 @@ async def info(ctx):
 
     embed.add_description(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot")
 
-    embed.set_author(name=message.author.display_name, 
-        icon_url=message.author.avatar_url_as(format="png"))
-
-    embed.set_footer(text=f"{message.guild.name} / {message.channel.name}",
-        icon_url=message.guild.icon_url_as(format="png"))
-
     await ctx.send(embed=embed)
 
 
