@@ -66,7 +66,7 @@ async def omikuji(ctx):
     await ctx.send("あなたの運勢は" + random.choice(OmikujiList) + "です")
 
 
-bot=commands.Bot(activity=discord.Game(f'{guild_count} 鯖で稼働中'))
+bot = commands.Bot(activity=discord.Game(f'{guild_count} 鯖で稼働中'))
 
 
 token = getenv('DISCORD_BOT_TOKEN')
