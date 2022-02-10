@@ -1,6 +1,7 @@
 from discord.ext import commands
 from os import getenv
 import traceback
+import discord
 
 bot = commands.Bot(command_prefix='$')
 
@@ -45,8 +46,8 @@ async def cat(ctx):
 @bot.command()
 async def info(ctx):
     embed = discord.Embed(
-                          title="SIGESBOT", 
-                          description="this is pre-made discord bot", 
+                          title="SIGESBOT",
+                          description="this is pre-made discord bot",
                           color=0xeee657
                           )
 
