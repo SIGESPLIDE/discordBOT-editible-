@@ -45,9 +45,9 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(color=0xeee657)
+    embed = discord.Embed(title="SIGESBOT", color=0xeee657)
 
-    embed.add_field(title="SIGESBOT", name="Author", value="<@SIGES_SSSPlide#6921>")
+    embed.add_field(name="Author", value="<@SIGES_SSSPlide#6921>")
 
     embed.add_field(name="Joined Servers", value=f"{len(bot.guilds)}")
 
