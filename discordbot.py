@@ -16,9 +16,6 @@ async def on_ready():
     print("起動")
     while not client.is_closed():
         await client.change_presence(activity=discord.Game(name=f"{len(client.guilds)} 鯖で稼働中")
-        await asyncio.sleep(10)
-        await client.change_presence(activity=discord.Game(name="Status 2")
-        await asyncio.sleep(10)
 
 
 @bot.event
