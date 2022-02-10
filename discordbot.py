@@ -45,7 +45,7 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(
+    embed = discord.Embed( 
                           title="SIGESBOT",
                           description="this is pre-made discord bot",
                           color=0xeee657
