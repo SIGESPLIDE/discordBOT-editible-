@@ -6,6 +6,7 @@ import datetime
 import random
 
 
+guild_count = len(client.guilds)
 bot = commands.Bot(command_prefix="!", activity=discord.Game(f'{guild_count} 鯖で稼働中'))
 bot = commands.Bot(command_prefix='$')
 client = discord.Client()
@@ -16,18 +17,6 @@ async def on_command_error(ctx, error):
     orig_error = getattr(error, "original", error)
     error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
     await ctx.send(error_msg)
-
-
-@client.event
-async def on_ready():
-
-    # 認識しているサーバーをlist型で取得し、その要素の数を 変数:guild_count に格納
-    guild_count = len(client.guilds)
-    # 関数:lenは、引数に指定したオブジェクトの長さや要素の数を取得
-    game = discord.Game(f'{guild_count} 鯖で稼働中')
-    # BOTのステータスを変更する
-    await client.change_presence(status=discord.Status.online, activity=game)
-    # パラメーターの status でステータス状況(オンライン, 退席中など)を変更可能
 
 
 @bot.command()
