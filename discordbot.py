@@ -8,7 +8,7 @@ import random
 
 client = discord.Client()
 guild_count = len(client.guilds)
-bot = commands.Bot(command_prefix='$', activity=discord.Game(f'{guild_count} 鯖で稼働中'))
+bot = commands.Bot(command_prefix='$')
 
 
 @bot.event
@@ -64,6 +64,9 @@ async def info(ctx):
 async def omikuji(ctx):
     OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
     await ctx.send("あなたの運勢は" + random.choice(OmikujiList) + "です")
+
+
+bot=commands.Bot(activity=discord.Game(f'{guild_count} 鯖で稼働中'))
 
 
 token = getenv('DISCORD_BOT_TOKEN')
