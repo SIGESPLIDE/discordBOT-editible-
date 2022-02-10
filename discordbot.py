@@ -14,7 +14,7 @@ bot = commands.Bot(command_prefix='$', intents=intents)
 async def on_ready():
     print('{0.user}がログインしました'.format(bot))
     count = len(bot.guilds)
-    await bot.change_presence(activity=discord.Game(name="$help|" + str(count), type=1)) 
+    await bot.change_presence(activity=discord.Game(name="$help|" + str(count + "鯖で稼働中！"), type=1)) 
 
 
 @bot.event
