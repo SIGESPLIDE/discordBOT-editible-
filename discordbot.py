@@ -1,13 +1,15 @@
+import discord
 from discord.ext import commands
 from os import getenv
 import traceback
-import discord
 import datetime
 import random
 
 
+bot = commands.Bot(command_prefix="!", activity=discord.Game(f'{guild_count} 鯖で稼働中'))
 bot = commands.Bot(command_prefix='$')
 client = discord.Client()
+
 
 @bot.event
 async def on_command_error(ctx, error):
