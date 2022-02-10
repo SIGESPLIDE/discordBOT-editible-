@@ -56,7 +56,7 @@ async def info(ctx):
 
 @bot.command()
 async def omikuji(ctx):
-    await exec(open("OMIKUJI.py").read())
+    exec(open("OMIKUJI.py").read())
 
 
 token = getenv('DISCORD_BOT_TOKEN')
