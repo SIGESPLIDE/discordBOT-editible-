@@ -65,6 +65,7 @@ async def info(ctx):
     embed.add_field(name="Joined Servers", value=f"{len(bot.guilds)}", inline=False)
     embed.add_field(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot", inline=False)
     embed.set_author(name="SIGES_SSSPlide", url="https://github.com/SIGESPLIDE/discordBOT-editible-", icon_url="https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128")
+    embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100")
     embed.set_footer(text="this is Pre-release Discord bot")
     await ctx.send(embed=embed)
 
