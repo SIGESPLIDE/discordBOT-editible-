@@ -45,6 +45,7 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
+    inline=False
     embed = discord.Embed(title="SIGESBOT", color=0xeee657)
 
     embed.add_field(name="Author", value="<@SIGES_SSSPlide#6921>")
