@@ -45,16 +45,17 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(title="SIGESBOT", description="this is pre-made discord bot", color=0xeee657)
-
     # give info about you here
-    embed.add_field(name="Author", value="<@SIGES_SSSPlide#6921>")
+    embed.add_discription(title=SIGESBOT, name="Author", value="<@SIGES_SSSPlide#6921>")
 
     # Shows the number of servers the bot is member of.
-    embed.add_field(name="Server count", value=f"{len(bot.guilds)}")
+    embed.add_discription(name="Joined Servers", value=f"{len(bot.guilds)}")
 
     # give users a link to invite thsi bot to their server
-    embed.add_field(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot")
+    embed.add_discription(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot")
+
+
+    embed = discord.Embed(description="this is pre-release bot", color=0xeee657)
 
     await ctx.send(embed=embed)
 
