@@ -46,7 +46,7 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(title="SIGESBOT", description="", color=discord.Colour(0x112f43), timestamp=datetime.now)
+    embed = discord.Embed(title="SIGESBOT", description="", color=discord.Colour(0x112f43), timestamp=datetime.now())
     embed.add_field(name="Author", value="@SIGES_SSSPlide#6921", inline=False)
     embed.add_field(name="Joined Servers", value=f"{len(bot.guilds)}", inline=False)
     embed.add_field(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot", inline=False)
