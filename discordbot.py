@@ -50,7 +50,7 @@ async def info(ctx):
     embed.add_field(name="Author", value="@SIGES_SSSPlide#6921", inline=False)
     embed.add_field(name="Joined Servers", value=f"{len(bot.guilds)}", inline=False)
     embed.add_field(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot", inline=False)
-    embed.add_footer(text="this is Pre-release Discord bot")
+    embed.set_footer(text="this is Pre-release Discord bot")
     await ctx.send(embed=embed)
 
 
