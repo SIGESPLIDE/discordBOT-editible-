@@ -16,6 +16,12 @@ async def on_command_error(ctx, error):
     await ctx.send(error_msg)
 
 
+@client.event
+async def on_ready():
+    print('起動しました.')
+    await client.change_presence(activity=discord.Game(name=f"{len(client.guilds)} 鯖で稼働中!"))
+
+
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
