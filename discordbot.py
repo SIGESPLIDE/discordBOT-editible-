@@ -28,8 +28,6 @@ async def on_ready():
     # パラメーターの status でステータス状況(オンライン, 退席中など)を変更可能
 
 
-
-
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
