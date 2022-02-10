@@ -45,7 +45,7 @@ async def cat(ctx):
 
 @bot.command()
 async def info(ctx):
-    embed = discord.Embed(title="SIGESBOT",description="this is pre-made discord bot",color=0xeee657)
+    embed = discord.Embed(title="SIGESBOT", description="this is pre-made discord bot", color=0xeee657)
 
     # give info about you here
     embed.add_field(name="Author", value="<@SIGES_SSSPlide#6921>")
