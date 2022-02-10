@@ -6,15 +6,15 @@ import datetime
 import random
 import asyncio
 
-bot = commands.Bot(command_prefix='$')
+intents = discord.Intents.default()
+intents.members = True
+bot = commands.Bot(command_prefix='$', intents=intents)
 
-@client.event
+@bot.event
 async def on_ready():
-    print("起動")
-    client = discord.Client()
-    guild_count = len(client.guilds)
-    while not client.is_closed():
-        await client.change_presence(activity=discord.Game(name=f"{len(client.guilds)} 鯖で稼働中")
+    print('{0.user}がログインしました'.format(bot))
+    count = len(bot.guilds)
+    await bot.change_presence(activity=discord.Game(name="$help|" + str(count), type=1)) 
 
 
 @bot.event
