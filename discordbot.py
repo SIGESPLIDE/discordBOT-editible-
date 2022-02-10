@@ -6,10 +6,10 @@ import datetime
 import random
 
 
-guild_count = len(client.guilds)
-bot = commands.Bot(command_prefix="!", activity=discord.Game(f'{guild_count} 鯖で稼働中'))
-bot = commands.Bot(command_prefix='$')
 client = discord.Client()
+guild_count = len(client.guilds)
+bot = commands.Bot(activity=discord.Game(f'{guild_count} 鯖で稼働中'))
+bot = commands.Bot(command_prefix='$')
 
 
 @bot.event
