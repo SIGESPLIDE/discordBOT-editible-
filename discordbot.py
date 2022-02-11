@@ -18,13 +18,6 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    orig_error = getattr(error, "original", error)
-    error_msg = ''.join(traceback.TracebackException.from_exception(orig_error).format())
-    await ctx.send(error_msg)
-
-
-@bot.event
-async def on_command_error(ctx, error):
     ch = int型のチャンネルID
     embed = discord.Embed(title="エラー情報", description="", color=0xf00)
     embed.add_field(name="エラー発生サーバー名", value=ctx.guild.name, inline=False)
