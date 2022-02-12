@@ -17,7 +17,7 @@ async def on_ready():
 
 
 @bot.event
-async def on_command_error(ctx, error):
+async def on_command_error(ctx, error, message):
     @client.event
     if message.author.bot:
         return
