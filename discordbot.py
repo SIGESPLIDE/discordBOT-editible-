@@ -17,23 +17,8 @@ async def on_ready():
 
 
 @bot.event
-async def on_command_error(ctx, error):
-    @client.event
-    async def on_message(message):
-        if message.author.bot:
-            return
-        UnicodeEmoji = "\N{Black Question Mark Ornament}"
-        await message.add_reaction(UnicodeEmoji)
-
-
-@client.event
-async def on_message(message):
-    UnicodeEmoji = "\N{Black Question Mark Ornament}"
-    if message.author.bot:
-        return
-
-    Channel = message.channel
-    await Channel.send(UnicodeEmoji)
+async def on_command_error(ctx, message, error):
+    await message.add_reaction(":question:")
 
 
 @bot.command()
