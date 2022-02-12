@@ -7,6 +7,7 @@ import random
 intents = discord.Intents.default()
 intents.members = True
 bot = commands.Bot(command_prefix='$', intents=intents)
+client = discord.Client()
 
 @bot.event
 async def on_ready():
@@ -17,7 +18,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    await message.add_reaction(":question:")
+    await client.add_reaction(":question:")
 
 
 @bot.command()
