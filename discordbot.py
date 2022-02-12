@@ -19,10 +19,10 @@ async def on_ready():
 @bot.event
 async def on_command_error(ctx, error):
     @client.event
-        if message.author.bot:
-            return
-        UnicodeEmoji = "\N{Black Question Mark Ornament}"
-        await message.add_reaction(UnicodeEmoji)
+    if message.author.bot:
+        return
+    UnicodeEmoji = "\N{Black Question Mark Ornament}"
+    await message.add_reaction(UnicodeEmoji)
 
 
 @bot.command()
