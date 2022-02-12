@@ -26,9 +26,13 @@ async def on_command_error(ctx, error):
         await message.add_reaction(UnicodeEmoji)
 
 
-@bot.command
-async def reaction(ctx):
-    await ctx.add_reaction(":tada:")
+@client.event
+async def on_message(message):
+    if message.author.bot:
+        return
+
+    Channel = message.channel
+    await Channel.send(UnicodeEmoji)
 
 
 @bot.command()
