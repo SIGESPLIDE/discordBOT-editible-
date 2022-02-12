@@ -59,9 +59,9 @@ async def multiply(ctx, a: int, b: int):
 @bot.command()
 async def division(ctx, a: int, b: int):
     if a == 0:
-        await ctx.send("are you serious?!")
+        await ctx.send("Are you serious?!")
     elif b == 0:
-        await ctx.send("are you serious?!")
+        await ctx.send("No way")
     else:
         await ctx.send(a / b)
 
