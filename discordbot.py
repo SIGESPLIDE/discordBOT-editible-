@@ -23,7 +23,7 @@ async def on_command_error(ctx, error):
         if message.author.bot:
             return
         UnicodeEmoji = "\N{Black Question Mark Ornament}"
-        await add_reaction(UnicodeEmoji)
+        await message.add_reaction(UnicodeEmoji)
 
 
 @bot.command()
