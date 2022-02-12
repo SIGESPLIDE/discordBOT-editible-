@@ -58,6 +58,7 @@ async def on_message(message):
         embedData.set_thumbnail(url="https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100")
         embedData.set_footer(text="this is Pre-release Discord bot")
         await message.channel.send(embed=embedData)
+        return
 
 
 def isPrefix(message,word):
