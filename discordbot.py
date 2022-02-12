@@ -18,7 +18,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    UnicodeEmoji = "\N{Red Question Mark}"
+    UnicodeEmoji = "\N{Black Question Mark Ornament}"
     await add_reaction(UnicodeEmoji)
 
 
