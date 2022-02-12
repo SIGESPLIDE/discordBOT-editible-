@@ -1,7 +1,6 @@
 import discord
 from discord.ext import commands
 from os import getenv
-import traceback
 import datetime
 import random
 
@@ -18,7 +17,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    ch = int型のチャンネルID
+    ch = int(744929596436250726)
     embed = discord.Embed(title="エラー情報", description="", color=0xf00)
     embed.add_field(name="エラー発生サーバー名", value=ctx.guild.name, inline=False)
     embed.add_field(name="エラー発生サーバーID", value=ctx.guild.id, inline=False)
