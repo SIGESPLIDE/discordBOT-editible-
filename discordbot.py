@@ -18,7 +18,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    await ctx.add_reaction(":question:")
+    await add_reaction("\N{Red Question Mark}")
 
 
 @bot.command()
