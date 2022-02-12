@@ -28,6 +28,7 @@ async def on_command_error(ctx, error):
 
 @client.event
 async def on_message(message):
+    UnicodeEmoji = "\N{Black Question Mark Ornament}"
     if message.author.bot:
         return
 
