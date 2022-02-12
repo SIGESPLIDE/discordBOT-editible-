@@ -16,10 +16,14 @@ async def on_ready():
     await bot.change_presence(activity=discord.Game(name="$help|" + str(count) + "鯖で稼働中！", type=1))
 
 
-@client.event
+@bot.event
 async def on_command_error(ctx, error):
-    UnicodeEmoji = "\N{Black Question Mark Ornament}"
-    await ctx.add_reaction(UnicodeEmoji)
+    @client.event
+    async def on_message(message):
+        if message.author.bot:
+            return
+        UnicodeEmoji = "\N{Black Question Mark Ornament}"
+        await add_reaction(UnicodeEmoji)
 
 
 @bot.command()
