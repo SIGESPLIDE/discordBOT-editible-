@@ -1,36 +1,40 @@
-# discordpy-startup
+# SIGES BOT取扱説明書
+開発環境:rpi4(8gb) python v3.7.3
+必要用件:python v3.7.3
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-- Herokuでdiscord.pyを始めるテンプレートです。
-- Use Template からご利用ください。
-- 使い方はこちら： [Discord Bot 最速チュートリアル【Python&Heroku&GitHub】 - Qiita](https://qiita.com/1ntegrale9/items/aa4b373e8895273875a8)
-
-## 各種ファイル情報
-
-### discordbot.py
-PythonによるDiscordBotのアプリケーションファイルです。
-
-### requirements.txt
-使用しているPythonのライブラリ情報の設定ファイルです。
-
-### Procfile
-Herokuでのプロセス実行コマンドの設定ファイルです。
-
-### runtime.txt
-Herokuでの実行環境の設定ファイルです。
-
-### app.json
-Herokuデプロイボタンの設定ファイルです。
-
-### .github/workflows/flake8.yaml
-GitHub Actions による自動構文チェックの設定ファイルです。
-
-### .gitignore
-Git管理が不要なファイル/ディレクトリの設定ファイルです。
-
-### LICENSE
-このリポジトリのコードの権利情報です。MITライセンスの範囲でご自由にご利用ください。
-
-### README.md
-このドキュメントです。
+## -必要permission-  
+OAuth2:  
+```
+BOT
+```
+Bot:  
+```
+General
+ View Channels
+Text
+ Send Messages
+ Embed Links
+ Read Message History
+ Use External Emojis
+ Add Reactions
+```
+招待リンク `https://discord.com/api/oauth2/authorize?client_id=<Your Bot Application ID>&permissions=271666256&scope=bot`  
+  
+## -起動-  
+```
+DISCORD_BOT_TOKEN=<YOUR BOT TOKEN>
+python3 discordbot.py
+```
+  
+## -botｺﾏﾝﾄﾞ-  
+### TTS関連  
+`$add a b `:aとbを加算します
+`$cat`:ﾈｺ
+`$division a b`:aとbを除算します
+`$greet`:あいさつしましょう！
+`$help`:使用可能コマンドを確認できます
+`$info`:SIGES BOTの各種情報を表示します
+`$multiply a b`:aとbの掛け算をします
+`$omikuji`:おみくじ
+`$ping`:pong
+`$yattaze`:やったぜ
