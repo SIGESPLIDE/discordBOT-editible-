@@ -17,8 +17,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    msg=await ctx.send(embed=embed)
-    await msg.add_reaction("question")
+    await message.add_reaction(":question:")
 
 
 @bot.command()
