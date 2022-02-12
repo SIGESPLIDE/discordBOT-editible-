@@ -26,6 +26,11 @@ async def on_command_error(ctx, error):
         await message.add_reaction(UnicodeEmoji)
 
 
+@bot.command
+async def reaction(ctx):
+    await ctx.add_reaction(":tada:")
+
+
 @bot.command()
 async def ping(ctx):
     await ctx.send('pong')
