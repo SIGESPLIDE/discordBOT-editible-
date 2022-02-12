@@ -16,7 +16,7 @@ async def on_ready():
     print("%sでログインしました" % (client.user.name))
     count = len(client.guilds)
     activityData = discord.Activity(
-        name="$help | "+str(len(client.guilds))+"鯖で放置中",
+        name="$help | "+str(len(client.guilds))+"鯖で放流中",
         type=discord.ActivityType.playing
     )
     await client.change_presence(activity=activityData)
@@ -59,6 +59,8 @@ async def on_message(message):
         embedData.set_footer(text="this is Pre-release Discord bot")
         await message.channel.send(embed=embedData)
         return
+    if message.content.startswith(prefix):
+        await message.add_reaction("❓")
 
 
 def isPrefix(message,word):
