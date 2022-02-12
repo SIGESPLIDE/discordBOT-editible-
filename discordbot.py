@@ -26,7 +26,7 @@ async def on_ready():
 async def on_message(message):
     # ログ表示
     date = datetime.datetime.now()
-    print("[%d/%s/%s %s:%s:%s] <%s> %s" % (date.year,str(date.month).zfill(2),str(date.day).zfill(2),str(date.hour).zfill(2),str(date.minute).zfill(2),str(date.second).zfill(2),message.author,message.content))
+    print("[%s] <%s> %s" % (date.strftime('%Y年%m月%d日 %H:%M:%S'), message.author,message.content))
 
     # botチェック
     if message.author.bot:
@@ -52,7 +52,7 @@ async def on_message(message):
     if isPrefix(message,"info"):
         embedData = discord.Embed(title="SIGESBOT", description="", color=discord.Colour(0x112f43), timestamp=datetime.datetime.now())
         embedData.add_field(name="Author", value="@SIGES_SSSPlide#6921", inline=False)
-        embedData.add_field(name="Joined Servers", value=f"{len(bot.guilds)}", inline=False)
+        embedData.add_field(name="Joined Servers", value=f"{len(client.guilds)}", inline=False)
         embedData.add_field(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot", inline=False)
         embedData.set_author(name="SIGES_SSSPlide", url="https://github.com/SIGESPLIDE/discordBOT-editible-", icon_url="https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128")
         embedData.set_thumbnail(url="https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100")
