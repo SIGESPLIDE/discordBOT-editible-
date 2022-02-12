@@ -18,7 +18,7 @@ async def on_ready():
 
 @bot.event
 async def on_command_error(ctx, error):
-    await client.add_reaction(":question:")
+    await ctx.add_reaction(":question:")
 
 
 @bot.command()
