@@ -46,5 +46,7 @@ python3 discordbot.py
 
 `$yattaze`:やったぜ 
 
+`$eval`:eval関数を使用します
+
 #### ※メンテナンス中
 `$help`:使用可能コマンドを確認できます
