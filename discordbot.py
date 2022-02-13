@@ -10,7 +10,7 @@ import time
 client = discord.Client()
 prefix = "$"
 
-#起動時にコール
+# 起動時にコール
 @client.event
 async def on_ready():
     print("%sでログインしました" % (client.user.name))
@@ -26,7 +26,7 @@ async def on_ready():
 async def on_message(message):
     # ログ表示
     date = datetime.datetime.now()
-    print("[%s] <%s> %s" % (date.strftime('%Y年%m月%d日 %H:%M:%S'), message.author,message.content))
+    print("[%s] <%s> %s" % (date.strftime('%Y年%m月%d日| |%H:%M:%S'), message.author,message.content))
 
     # botチェック
     if message.author.bot:
