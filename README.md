@@ -29,12 +29,22 @@ python3 discordbot.py
 ## -botｺﾏﾝﾄﾞ-  
 ### TTS関連  
 `$add a b `:aとbを加算します 
+
 `$cat`:ﾈｺ 
-`$division a b`:aとbを除算します 
+
+`$div a b`:aとbを除算します 
+
 `$greet`:あいさつしましょう！ 
-`$help`:使用可能コマンドを確認できます 
+
 `$info`:SIGES BOTの各種情報を表示します 
-`$multiply a b`:aとbの掛け算をします 
+
+`$mul a b`:aとbの掛け算をします 
+
 `$omikuji`:おみくじ 
+
 `$ping`:pong 
+
 `$yattaze`:やったぜ 
+
+#### ※メンテナンス中
+`$help`:使用可能コマンドを確認できます
