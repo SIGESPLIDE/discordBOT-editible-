@@ -89,17 +89,17 @@ async def on_message(message):
         OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
         await message.reply("あなたの運勢は" + random.choice(OmikujiList) + "です")
         return
-    # 加算
+    # 足し算
     if isCommand(message,"add [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
         await message.reply(int(data[0])+int(data[1]))
         return
-    # 乗算
+    # 掛け算
     if isCommand(message,"mul [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
         await message.reply(int(data[0])*int(data[1]))
         return
-    # 除算
+    # 割り算
     if isCommand(message,"div [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
         try:
@@ -108,7 +108,7 @@ async def on_message(message):
         except ZeroDivisionError:
             await message.reply("are you serious?!")
         return
-    # 式解釈
+    # eval関数を利用した四則演算
     if isCommand(message,"eval .*"):
         try:
             await asyncio.wait_for(await message.reply(eval(re.sub(prefix+"eval ","",message.content))), timeout=1)
