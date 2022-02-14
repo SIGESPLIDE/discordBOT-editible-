@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 # ----------必要なパッケージを読み込み----------
-from sqlite3 import Timestamp
+#標準パッケージじゃない
+import timeout_decorator
 import discord
-import os
 import datetime
 import random
 import re
-import asyncio
 import time
-from multiprocessing import Pool, TimeoutError
 
 # ----------ボットの定義----------
 client = discord.Client()
@@ -20,14 +18,13 @@ list_vote = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '
 def isCommand(message,match):
     return re.match("^"+prefix+match,message.content)
 
-async def math(message):
+@timeout_decorator.timeout(1)
+def mathEval(message):
     try:
         ans = eval(re.sub(prefix+"eval ","",message.content))
-        await message.reply(ans)
-        return
+        return ans
     except Exception as e:
-        await message.reply(":thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:\n```cs\n# Error : %s ```:thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:" % str(e.args))
-        return
+        return ("```cs\n# Error : %s ```" % str(e))
 
 # 起動時にコール
 @client.event
@@ -123,16 +120,7 @@ async def on_message(message):
         return
     # eval関数を利用した四則演算
     if isCommand(message,"eval .*"):
-        # タイムアウト
-        try:
-            # タイムアウト用プロセス
-            with Pool(processes=1) as p:
-                apply_result = p.apply_async(math,message)
-                # タイムアウト時間
-                apply_result.get(timeout=5)
-        # タイムアウト
-        except TimeoutError:
-            await message.reply("```cs\n# Error: Time Out!```")
+        await message.reply(mathEval(message))
         return
     # SIGES BOTのインフォメーションをembed形式で表示
     if isCommand(message,"info$"):
