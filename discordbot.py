@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # ----------必要なパッケージを読み込み----------
 # 標準パッケージじゃない
-
 import timeout_decorator
 import discord
 # 標準パッケージ
@@ -142,7 +141,7 @@ async def on_message(message):
             inline = False)
         embedData.add_field(
             name   = "Invite",
-            value  = "https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot",
+            value  = "https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=140727766081&scope=bot",
             inline = False)
         embedData.set_author(
             name     = "SIGES_SSSPlide",
@@ -155,7 +154,7 @@ async def on_message(message):
         await message.channel.send(embed=embedData)
         return
     #----------ここからpoll機能----------
-    if isCommand(message,"question (yes-no|vote|help)"):
+    if isCommand(message,"que(|stion) (yes-no|vote|help)"):
         # セパレータによる不自然な挙動を防止
         if re.match(".*\s{2,}",message.content):
             await message.channel.send("無効なコマンドです (セパレータが連続もしくは最後に入力されています)")
