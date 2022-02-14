@@ -8,16 +8,14 @@ import random
 import re
 import asyncio
 
-# ボットの定義
+# ボット用変数
 client = discord.Client()
 prefix = "\$"
-
-#poll機能用の定義
-
 list_yesno = ['⭕', '❌']
 list_vote = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
 
-def emphasize(text):
+# text系関数
+def bold(text):
     return "**" + text + "**"
 
 def underline(text):
@@ -28,6 +26,9 @@ def isContainedNoInput(command):
         if i == "":
             return True
     return False
+
+def isCommand(message,match):
+    return re.match("^"+prefix+match,message.content)
 
 # 起動時にコール
 @client.event
@@ -52,63 +53,92 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    # ｺﾏﾝﾄﾞ応答
-    if isCommand(message,"number$"):
+    #### ｺﾏﾝﾄﾞ応答 ####
+    # ナンバー
+    if isCommand(message,"num(|ber)$"):
         for i in range(len(list_vote)):
             await message.add_reaction(list_vote[i])
         return
+    # あなたはボットですか
     if isCommand(message,"あなたはロボットですか？$"):
         await message.add_reaction("❌")
         await message.reply("ﾆﾝｹﾞﾝﾀﾞﾖ")
         return
+    # ping表示
     if isCommand(message,"ping$"):
         raw_ping = client.latency
         ping = round(raw_ping * 1000)
         await message.reply(f"Pong!\nSIGES BotのPing値は{ping}msです。")
         return
+    # yattaze
     if isCommand(message,"yattaze$"):
         await message.reply("やったぜ")
         return
+    # greet
     if isCommand(message,"greet$"):
         await message.reply(":smiley: :wave: Hello, there!")
         return
+    # ねこ
     if isCommand(message,"cat$"):
         await message.reply("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
         return
+    # おみくじ
     if isCommand(message,"omikuji$"):
         OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
         await message.reply("あなたの運勢は" + random.choice(OmikujiList) + "です")
         return
+    # 加算
     if isCommand(message,"add [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
         await message.reply(int(data[0])+int(data[1]))
         return
+    # 乗算
     if isCommand(message,"mul [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
         await message.reply(int(data[0])*int(data[1]))
         return
+    # 除算
     if isCommand(message,"div [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
         await message.reply(int(data[0])/int(data[1]))
         return
+    # 式解釈
     if isCommand(message,"eval .*"):
         try:
-        #    await message.reply(eval(re.sub(prefix+"eval ","",message.content)))
             await asyncio.wait_for(await message.reply(eval(re.sub(prefix+"eval ","",message.content))), timeout=1)
         except Exception as e:
             await message.reply(":thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:\n```cs\n# Error : %s ```:thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:" % str(e.args))
         return
+    # 情報表示
     if isCommand(message,"info$"):
-        embedData = discord.Embed(title="SIGESBOT", description="", color=discord.Colour(0x112f43), timestamp = date)
-        embedData.add_field(name="Author", value="@SIGES_SSSPlide#6921", inline=False)
-        embedData.add_field(name="Joined Servers", value=f"{len(client.guilds)}", inline=False)
-        embedData.add_field(name="Invite", value="https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot", inline=False)
-        embedData.set_author(name="SIGES_SSSPlide", url="https://github.com/SIGESPLIDE/discordBOT-editible-", icon_url="https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128")
-        embedData.set_thumbnail(url="https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100")
-        embedData.set_footer(text="this is Pre-release Discord bot")
+        embedData = discord.Embed(
+            title       = "SIGESBOT",
+            description = "",
+            color       = discord.Colour(0x112f43),
+            timestamp   = date)
+        embedData.add_field(
+            name   = "Author",
+            value  = "@SIGES_SSSPlide#6921",
+            inline = False)
+        embedData.add_field(
+            name   = "Joined Servers",
+            value  = f"{len(client.guilds)}",
+            inline = False)
+        embedData.add_field(
+            name   = "Invite",
+            value  = "https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=8&scope=bot",
+            inline = False)
+        embedData.set_author(
+            name     = "SIGES_SSSPlide",
+            url      = "https://github.com/SIGESPLIDE/discordBOT-editible-",
+            icon_url = "https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128")
+        embedData.set_thumbnail(
+            url = "https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100")
+        embedData.set_footer(
+            text = "this is Pre-release Discord bot")
         await message.channel.send(embed=embedData)
         return
-    
+        
 ################################ここからpoll機能####################################
     pollcommand = message.content.split(" ")
     # 投票関連のコマンド
@@ -204,9 +234,6 @@ async def on_message(message):
         await message.add_reaction("🤔")
 
 
-def isCommand(message,match):
-    return re.match("^"+prefix+match,message.content)
 
-
-
+# Bot起動
 client.run(os.getenv('BOT_TOKEN'))
