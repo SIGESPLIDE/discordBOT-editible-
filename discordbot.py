@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# 必要なパッケージを読み込み
+# ----------必要なパッケージを読み込み----------
 from sqlite3 import Timestamp
 import discord
 import os
@@ -7,8 +7,9 @@ import datetime
 import random
 import re
 import asyncio
+import time
 
-# ボット用変数
+# ----------ボットの定義----------
 client = discord.Client()
 prefix = "\$"
 list_yesno = ['⭕', '❌']
@@ -36,12 +37,12 @@ async def on_ready():
     print("%sでログインしました" % (client.user.name))
     count = len(client.guilds)
     activityData = discord.Activity(
-        name="$help | "+str(len(client.guilds))+"鯖で放流中",
+        name="$help | "+str(len(client.guilds))+"鯖で放流中 | |\n\b利用規約、Readmeをよく読んでから導入，利用しましょう|\\ver.0.15",
         type=discord.ActivityType.playing
     )
     await client.change_presence(activity=activityData)
 
-# チャットに反応
+# ----------チャットに反応----------
 @client.event
 async def on_message(message):
     # ログ表示
@@ -53,36 +54,37 @@ async def on_message(message):
     if message.author.bot:
         return
 
-    #### ｺﾏﾝﾄﾞ応答 ####
-    # ナンバー
+    # ----------ｺﾏﾝﾄﾞ応答----------
     if isCommand(message,"num(|ber)$"):
         for i in range(len(list_vote)):
             await message.add_reaction(list_vote[i])
         return
-    # あなたはボットですか
+    # お遊び要素
     if isCommand(message,"あなたはロボットですか？$"):
         await message.add_reaction("❌")
         await message.reply("ﾆﾝｹﾞﾝﾀﾞﾖ")
+        time.sleep(10)
+        await message.add_reaction("❌")
         return
-    # ping表示
+    # SIGES BOTのping値を返します
     if isCommand(message,"ping$"):
         raw_ping = client.latency
         ping = round(raw_ping * 1000)
         await message.reply(f"Pong!\nSIGES BotのPing値は{ping}msです。")
         return
-    # yattaze
+    # 「やったぜ」と返す
     if isCommand(message,"yattaze$"):
         await message.reply("やったぜ")
         return
-    # greet
+    # BOTが返信して挨拶する
     if isCommand(message,"greet$"):
         await message.reply(":smiley: :wave: Hello, there!")
         return
-    # ねこ
+    # ”giphy”からgif画像を取って貼り付ける（ねこ）
     if isCommand(message,"cat$"):
         await message.reply("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
         return
-    # おみくじ
+    # おみくじを引く
     if isCommand(message,"omikuji$"):
         OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
         await message.reply("あなたの運勢は" + random.choice(OmikujiList) + "です")
@@ -100,7 +102,11 @@ async def on_message(message):
     # 除算
     if isCommand(message,"div [0-9]+ [0-9]+$"):
         data = re.findall(r'\d+',message.content)
-        await message.reply(int(data[0])/int(data[1]))
+        try:
+            print(int(data[0])/int(data[1]))
+            await message.reply(int(data[0])/int(data[1]))
+        except ZeroDivisionError:
+            await message.reply("are you serious?!")
         return
     # 式解釈
     if isCommand(message,"eval .*"):
@@ -109,7 +115,7 @@ async def on_message(message):
         except Exception as e:
             await message.reply(":thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:\n```cs\n# Error : %s ```:thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:" % str(e.args))
         return
-    # 情報表示
+    # SIGES BOTのインフォメーションをembed形式で表示
     if isCommand(message,"info$"):
         embedData = discord.Embed(
             title       = "SIGESBOT",
@@ -138,11 +144,10 @@ async def on_message(message):
             text = "this is Pre-release Discord bot")
         await message.channel.send(embed=embedData)
         return
-        
-################################ここからpoll機能####################################
+    #----------ここからpoll機能----------
     pollcommand = message.content.split(" ")
     # 投票関連のコマンド
-    if pollcommand[0] == "$question":
+    if isCommand(message,"question (yes-no|vote|help)"):
 
         # セパレータによる不自然な挙動を防止
         if isContainedNoInput(pollcommand):
@@ -212,10 +217,10 @@ async def on_message(message):
         except IndexError:
             await message.channel.send("質問の入力形式に間違いがあります (引数が足りません)")
             return
-    '''
+    '''# 使用可能コマンドを確認
     if isCommand(message,"help$"):
         embedData = discord.Embed(title = "使用可能コマンド一覧", description = "現在メンテナンス中", color = discord.Colour(0x2ecc71))
-        embedData.add_field(name = "**__$number__**", value = "０から９までの数字のリアクションを追加します")
+        embedData.add_field(name = "**__$number__**", value = "１から１０までの数字のリアクションを追加します")
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
