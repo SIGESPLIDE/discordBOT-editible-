@@ -145,67 +145,67 @@ async def on_message(message):
         await message.channel.send(embed=embedData)
         return
     #----------ここからpoll機能----------
-    pollcommand = message.content.split(" ")
-    # 投票関連のコマンド
     if isCommand(message,"question (yes-no|vote|help)"):
-
         # セパレータによる不自然な挙動を防止
-        if isContainedNoInput(pollcommand):
+        if re.match(".*\s{2,}",message.content):
             await message.channel.send("無効なコマンドです (セパレータが連続もしくは最後に入力されています)")
             return
 
+        # 項目作成
+        pollData  = message.content.split(" ")
+        pollType  = pollData[1]
+        if not (pollType == "help"):
+            pollTitle = pollData[2]
+            pollData  = pollData[3:]
+        # 分岐
         try:
             # Yes-No 疑問文
-            if pollcommand[1] == "yes-no":
-                embed = discord.Embed(title=pollcommand[2], description="", color=discord.Colour.blue())
-
-                # 質問文を表示してYes,Noを絵文字でリアクション
+            if pollType == "yes-no":
+                # 質問文を表示
+                embed = discord.Embed(title=pollTitle, description="", color=discord.Colour.blue())
                 voting_msg = await message.channel.send(embed=embed)
+                # リアクション追加
                 for i in range(len(list_yesno)):
                     await voting_msg.add_reaction(list_yesno[i])
                 return
-
             # 選択肢のある疑問文　
-            elif pollcommand[1] == "vote":
-                embed = discord.Embed(title=pollcommand[2], description="", color=discord.Colour.green())
-
+            if pollType == "vote":
                 # 選択肢の数を確認
-                select = len(pollcommand) - 3
+                select = len(pollData)
                 if select > 10:
                     await message.channel.send("可能な選択肢は最大10個までです")
                     return
-
-                # 選択肢を表示
-                vote_candidate = pollcommand[3:]
-                for i in range(len(vote_candidate)):
-                    embed.description = embed.description + list_vote[i] + "   " + vote_candidate[i] + "\n"
-
-                # リアクションによる回答欄を作成
+                # 質問文を表示
+                embed = discord.Embed(title=pollTitle, description="", color=discord.Colour.green())
+                for i in range(len(pollData)):
+                    embed.description = embed.description + list_vote[i] + "   " + pollData[i] + "\n"
                 voting_msg = await message.channel.send(embed=embed)
+                # リアクション追加
                 for i in range(select):
                     await voting_msg.add_reaction(list_vote[i])
                 return
-
-            # 使い方
-            elif pollcommand[1] == "help":
+            # ヘルプの表示
+            if pollType == "help":
+                #文の表示
                 embed = discord.Embed(title="使用方法", description="", color=discord.Colour.red())
-                embed.description = emphasize("question [TYPE] [CONTENT] + [CANDIDATE]\n") + \
-                                    "注意 : 質問文や選択肢に\"空欄\"を含めないでください\n" \
-                                    "\n" \
-                                    + emphasize("[TYPE] : \"yes-no\" or \"vote\"\n") + \
-                                    underline("\"yes-no\" : \n") + \
-                                    "Yes-No疑問文を作成します\n" \
-                                    "[CANDIDATE]は必要ありません\n" \
-                                    + underline("\"vote\" : \n") + \
-                                    "選択肢が複数ある質問を作成します\n" \
-                                    "[CANDIDATE]がない場合は質問文だけ表示されます\n" \
-                                    "\n" \
-                                    + emphasize("[CONTENT] : \n") + \
-                                    "質問文に相当します\n" \
-                                    "\n" \
-                                    + emphasize("[CANDIDATE] : \n") + \
-                                    "質問形式が\"vote\"である場合の選択肢です\n" \
-                                    "選択肢として可能な最大個数は10個までです\n"
+                embed.description = (
+                    '**question [TYPE] [CONTENT] [CANDIDATE]**\n'
+                    '注意 : 質問文や選択肢に"空欄"を含めないでください\n'
+                    '\n'
+                    '**[TYPE] : "yes-no" or "vote"**\n'
+                    '__"yes-no" :__\n'
+                    'Yes-No疑問文を作成します\n'
+                    '[CANDIDATE]は必要ありません\n'
+                    '__"vote" :__\n'
+                    '選択肢が複数ある質問を作成します\n'
+                    '[CANDIDATE]がない場合は質問文だけ表示されます\n'
+                    '\n'
+                    '**[CONTENT] :**\n'
+                    '質問文に相当します\n'
+                    '\n'
+                    '**[CANDIDATE] :**\n"'
+                    '質問形式が\"vote\"である場合の選択肢です\n'
+                    '選択肢として可能な最大個数は10個までです')
                 await message.channel.send(embed=embed)
                 return
 
