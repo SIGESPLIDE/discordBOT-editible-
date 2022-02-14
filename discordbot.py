@@ -20,12 +20,12 @@ list_vote = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '
 def isCommand(message,match):
     return re.match("^"+prefix+match,message.content)
 
-def math(message):
+async def math(message):
     try:
         ans = eval(re.sub(prefix+"eval ","",message.content))
         await message.reply(ans)
         return
-    except as e:
+    except Exception as e:
         await message.reply(":thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:\n```cs\n# Error : %s ```:thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face::thinking_face:" % str(e.args))
         return
 
@@ -88,21 +88,36 @@ async def on_message(message):
         await message.reply("あなたの運勢は" + random.choice(OmikujiList) + "です")
         return
     # 足し算
-    if isCommand(message,"add [0-9]+ [0-9]+$"):
+    if isCommand(message,"add [0-9]+?"):
         data = re.findall(r'\d+',message.content)
-        await message.reply(int(data[0])+int(data[1]))
+        ans = 0
+        for i in range(len(data)):
+            ans += int(data[i])
+        await message.reply(ans)
         return
-    # 掛け算
-    if isCommand(message,"mul [0-9]+ [0-9]+$"):
+    # 引き算
+    if isCommand(message,"add [0-9]+?"):
         data = re.findall(r'\d+',message.content)
-        await message.reply(int(data[0])*int(data[1]))
+        ans = 0
+        for i in range(len(data)):
+            ans += int(data[i])
+        await message.reply(ans)
+    # 掛け算
+    if isCommand(message,"mul [0-9]+?"):
+        data = re.findall(r'\d+',message.content)
+        ans = 0
+        for i in range(len(data)):
+            ans *= int(data[i])
+        await message.reply(ans)
         return
     # 割り算
-    if isCommand(message,"div [0-9]+ [0-9]+$"):
+    if isCommand(message,"div [0-9]+?"):
         data = re.findall(r'\d+',message.content)
+        ans = float(data[0])
         try:
-            print(int(data[0])/int(data[1]))
-            await message.reply(int(data[0])/int(data[1]))
+            for i in range(len(data)-1):
+                ans /= int(data[i+1])
+            await message.reply(ans)
         except ZeroDivisionError:
             await message.reply("are you serious?!")
         return
