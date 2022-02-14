@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # ----------必要なパッケージを読み込み----------
 # 標準パッケージじゃない
+
 import timeout_decorator
 import discord
 # 標準パッケージ
@@ -8,6 +9,7 @@ import datetime
 import random
 import re
 import time
+import os
 
 # ----------ボットの定義----------
 client = discord.Client()
