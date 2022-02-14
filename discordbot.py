@@ -12,7 +12,8 @@ import asyncio
 client = discord.Client()
 prefix = "\$"
 
-#poll機能用定義
+#poll機能用の定義
+
 list_yesno = ['⭕', '❌']
 list_vote = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
 
@@ -53,16 +54,8 @@ async def on_message(message):
 
     # ｺﾏﾝﾄﾞ応答
     if isCommand(message,"number$"):
-        await message.add_reaction("0️⃣")
-        await message.add_reaction("1️⃣")
-        await message.add_reaction("2️⃣")
-        await message.add_reaction("3️⃣")
-        await message.add_reaction("4️⃣")
-        await message.add_reaction("5️⃣")
-        await message.add_reaction("6️⃣")
-        await message.add_reaction("7️⃣")
-        await message.add_reaction("8️⃣")
-        await message.add_reaction("9️⃣")
+        for i in range(len(list_vote)):
+            await message.add_reaction(list_vote[i])
         return
     if isCommand(message,"あなたはロボットですか？$"):
         await message.add_reaction("❌")
@@ -117,20 +110,19 @@ async def on_message(message):
         return
     
 ################################ここからpoll機能####################################
-    command = message.content.split(".")
-
+    pollcommand = message.content.split(" ")
     # 投票関連のコマンド
-    if command[0] == "$question":
+    if pollcommand[0] == "$question":
 
         # セパレータによる不自然な挙動を防止
-        if isContainedNoInput(command):
+        if isContainedNoInput(pollcommand):
             await message.channel.send("無効なコマンドです (セパレータが連続もしくは最後に入力されています)")
             return
 
         try:
             # Yes-No 疑問文
-            if command[1] == "yes-no":
-                embed = discord.Embed(title=command[2], description="", color=discord.Colour.blue())
+            if pollcommand[1] == "yes-no":
+                embed = discord.Embed(title=pollcommand[2], description="", color=discord.Colour.blue())
 
                 # 質問文を表示してYes,Noを絵文字でリアクション
                 voting_msg = await message.channel.send(embed=embed)
@@ -139,17 +131,17 @@ async def on_message(message):
                 return
 
             # 選択肢のある疑問文　
-            elif command[1] == "vote":
-                embed = discord.Embed(title=command[2], description="", color=discord.Colour.green())
+            elif pollcommand[1] == "vote":
+                embed = discord.Embed(title=pollcommand[2], description="", color=discord.Colour.green())
 
                 # 選択肢の数を確認
-                select = len(command) - 3
+                select = len(pollcommand) - 3
                 if select > 10:
                     await message.channel.send("可能な選択肢は最大10個までです")
                     return
 
                 # 選択肢を表示
-                vote_candidate = command[3:]
+                vote_candidate = pollcommand[3:]
                 for i in range(len(vote_candidate)):
                     embed.description = embed.description + list_vote[i] + "   " + vote_candidate[i] + "\n"
 
@@ -160,10 +152,10 @@ async def on_message(message):
                 return
 
             # 使い方
-            elif command[1] == "help":
+            elif pollcommand[1] == "help":
                 embed = discord.Embed(title="使用方法", description="", color=discord.Colour.red())
-                embed.description = emphasize("question.[TYPE].[CONTENT] + .[CANDIDATE]\n") + \
-                                    "注意 : 質問文や選択肢に\".\"を含めないでください\n" \
+                embed.description = emphasize("question [TYPE] [CONTENT] + [CANDIDATE]\n") + \
+                                    "注意 : 質問文や選択肢に\"空欄\"を含めないでください\n" \
                                     "\n" \
                                     + emphasize("[TYPE] : \"yes-no\" or \"vote\"\n") + \
                                     underline("\"yes-no\" : \n") + \
@@ -216,18 +208,5 @@ def isCommand(message,match):
     return re.match("^"+prefix+match,message.content)
 
 
-#@bot.command()
-#async def multiply(ctx, a: int, b: int):
-#    await ctx.send(a * b)
-
-
-#@bot.command()
-#async def division(ctx, a: int, b: int):
-#    if a == 0:
-#        await ctx.send("Are you serious?!")
-#    elif b == 0:
-#        await ctx.send("No way")
-#    else:
-#        await ctx.send(a / b)
 
 client.run(os.getenv('BOT_TOKEN'))
