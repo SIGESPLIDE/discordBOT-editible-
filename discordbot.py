@@ -3,6 +3,8 @@
 # 標準パッケージじゃない
 import timeout_decorator
 import discord
+import youtube_dl
+from discord.ext import commands
 
 # 標準パッケージ
 import datetime
@@ -36,7 +38,7 @@ async def on_ready():
     print("%sでログインしました" % (client.user.name))
     count = len(client.guilds)
     activityData = discord.Activity(
-        name="$help | "+str(len(client.guilds))+"鯖で放流中 | |\n\b利用規約、Readmeをよく読んでから導入，利用しましょう|\\ver.0.15",
+        name="$help | "+str(len(client.guilds))+"鯖で放流中 | |\n\b\f利用規約、Readmeをよく読んでから導入，利用しましょう|\\ver.0.16.1",
         type=discord.ActivityType.playing
     )
     await client.change_presence(activity=activityData)
@@ -53,7 +55,6 @@ async def on_message(message):
         # await message.channel.send(f"{message.guild.name}で{message.channel.name}に{message.author.name}がメッセージをおくったよん")
     #except Exception as e:
     #     print(f"Error Send: {e.args}")
-
     # botチェック
     if message.author.bot:
         return
@@ -64,7 +65,7 @@ async def on_message(message):
             await message.add_reaction(list_vote[i])
         return
     # お遊び要素
-    if isCommand(message,"$aaaaaaaa"):
+    if isCommand(message,"$あなたは"):
         await message.add_reaction("❌")
         async with message.channel.typing():
             await asyncio.sleep(5)
@@ -244,10 +245,11 @@ async def on_message(message):
         except IndexError:
             await message.channel.send("質問の入力形式に間違いがあります (引数が足りません)")
             return
-    '''# 使用可能コマンドを確認
+    # 使用可能コマンドを確認
     if isCommand(message,"help$"):
         embedData = discord.Embed(title = "使用可能コマンド一覧", description = "現在メンテナンス中", color = discord.Colour(0x2ecc71))
         embedData.add_field(name = "**__$number__**", value = "１から１０までの数字のリアクションを追加します")
+        '''
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
@@ -257,13 +259,143 @@ async def on_message(message):
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
+        '''
         await message.channel.send(embed=embedData)
         return
-    '''
-
+    
     if isCommand(message,".*$"):
         await message.add_reaction("❓")
         await message.add_reaction("🤔")
+
+'''
+---------------実装予定のvoice機能-----------------
+# Suppress noise about console usage from errors
+youtube_dl.utils.bug_reports_message = lambda: ''
+
+
+ytdl_format_options = {
+    'format': 'bestaudio/best',
+    'outtmpl': '%(extractor)s-%(id)s-%(title)s.%(ext)s',
+    'restrictfilenames': True,
+    'noplaylist': True,
+    'nocheckcertificate': True,
+    'ignoreerrors': False,
+    'logtostderr': False,
+    'quiet': True,
+    'no_warnings': True,
+    'default_search': 'auto',
+    'source_address': '0.0.0.0' # bind to ipv4 since ipv6 addresses cause issues sometimes
+}
+
+ffmpeg_options = {
+    'options': '-vn'
+}
+
+ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
+
+
+class YTDLSource(discord.PCMVolumeTransformer):
+    def __init__(self, source, *, data, volume=0.5):
+        super().__init__(source, volume)
+
+        self.data = data
+
+        self.title = data.get('title')
+        self.url = data.get('url')
+
+    @classmethod
+    async def from_url(cls, url, *, loop=None, stream=False):
+        loop = loop or asyncio.get_event_loop()
+        data = await loop.run_in_executor(None, lambda: ytdl.extract_info(url, download=not stream))
+
+        if 'entries' in data:
+            # take first item from a playlist
+            data = data['entries'][0]
+
+        filename = data['url'] if stream else ytdl.prepare_filename(data)
+        return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
+
+
+class Music(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+
+    @commands.command()
+    async def join(self, message, *, channel: discord.VoiceChannel):
+        """Joins a voice channel"""
+
+        if message.voice_client is not None:
+            return await message.voice_client.move_to(channel)
+
+        await channel.connect()
+
+    @commands.command()
+    async def play(self, message, *, query):
+        """Plays a file from the local filesystem"""
+
+        source = discord.PCMVolumeTransformer(discord.FFmpegPCMAudio(query))
+        message.voice_client.play(source, after=lambda e: print(f'Player error: {e}') if e else None)
+
+        await message.send(f'Now playing: {query}')
+
+    @commands.command()
+    async def yt(self, message, *, url):
+        """Plays from a url (almost anything youtube_dl supports)"""
+
+        async with message.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop)
+            message.voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
+
+        await message.send(f'Now playing: {player.title}')
+
+    @commands.command()
+    async def stream(self, message, *, url):
+        """Streams from a url (same as yt, but doesn't predownload)"""
+
+        async with message.typing():
+            player = await YTDLSource.from_url(url, loop=self.bot.loop, stream=True)
+            message.voice_client.play(player, after=lambda e: print(f'Player error: {e}') if e else None)
+
+        await message.send(f'Now playing: {player.title}')
+
+    @commands.command()
+    async def volume(self, message, volume: int):
+        """Changes the player's volume"""
+
+        if message.voice_client is None:
+            return await message.send("Not connected to a voice channel.")
+
+        message.voice_client.source.volume = volume / 100
+        await message.send(f"Changed volume to {volume}%")
+
+    @commands.command()
+    async def stop(self, message):
+        """Stops and disconnects the bot from voice"""
+
+        await message.voice_client.disconnect()
+
+    @play.before_invoke
+    @yt.before_invoke
+    @stream.before_invoke
+    async def ensure_voice(self, message):
+        if message.voice_client is None:
+            if message.author.voice:
+                await message.author.voice.channel.connect()
+            else:
+                await message.send("You are not connected to a voice channel.")
+                raise commands.CommandError("Author not connected to a voice channel.")
+        elif message.voice_client.is_playing():
+            message.voice_client.stop()
+'''
+
+bot = commands.Bot(command_prefix=commands.when_mentioned_or("!"),
+                   description='Relatively simple music bot example')
+
+
+bot.add_cog(Music(bot))
+
+
+
 
 
 
