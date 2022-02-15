@@ -3,12 +3,14 @@
 # 標準パッケージじゃない
 import timeout_decorator
 import discord
+
 # 標準パッケージ
 import datetime
 import random
 import re
 import time
 import os
+import asyncio
 
 # ----------ボットの定義----------
 client = discord.Client()
@@ -43,9 +45,14 @@ async def on_ready():
 @client.event
 async def on_message(message):
     # ログ表示
-    JST = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
-    date = datetime.datetime.now(JST)
-    print("[%s] <%s> %s" % (date.strftime('%Y年%m月%d日 %H:%M:%S'), message.author,message.content))
+    JST        = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
+    date       = datetime.datetime.now(JST)
+    print(f"[{date.strftime('%Y年%m月%d日 %H:%M:%S')}] {message.guild.name} >> {message.channel.name} >> {message.author.name}:{message.content}")
+    #try:
+        # print(f"{message.guild.name}で{message.channel.name}に{message.author.name}がメッセージをおくったよん")
+        # await message.channel.send(f"{message.guild.name}で{message.channel.name}に{message.author.name}がメッセージをおくったよん")
+    #except Exception as e:
+    #     print(f"Error Send: {e.args}")
 
     # botチェック
     if message.author.bot:
@@ -57,11 +64,22 @@ async def on_message(message):
             await message.add_reaction(list_vote[i])
         return
     # お遊び要素
-    if isCommand(message,"あなたはロボットですか？$"):
+    if isCommand(message,"$aaaaaaaa"):
         await message.add_reaction("❌")
-        await message.reply("ﾆﾝｹﾞﾝﾀﾞﾖ")
-        time.sleep(10)
-        await message.add_reaction("❌")
+        async with message.channel.typing():
+            await asyncio.sleep(5)
+        msg = await message.reply("ﾆﾝｹﾞﾝﾀﾞﾖ")
+        await msg.add_reaction("⭕")
+        
+        return
+    if isCommand(message,"ffmpeg$"):
+        kami = "<:kami:933925948259205171>"
+        try:
+            await message.add_reaction(kami)
+            msg = await message.channel.send(kami)
+            await msg.add_reaction(kami)
+        except Exception as e:
+            print(e.args)
         return
     # SIGES BOTのping値を返します
     if isCommand(message,"ping$"):
