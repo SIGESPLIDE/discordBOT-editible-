@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 # ----------必要なパッケージを読み込み----------
 # 標準パッケージじゃない
-from ast import Index
 from webbrowser import get
 import timeout_decorator
 import discord
-import youtube_dl
+#import youtube_dl
 #from requests import get
-from discord.ext import commands
-from discord import FFmpegPCMAudio
-from discord.utils import get
 
 # 標準パッケージ
 import datetime
@@ -20,6 +16,7 @@ import asyncio
 
 
 #　YOUTUBE_DL用定義
+'''メンテナンス中
 # Suppress noise about console usage from errors
 youtube_dl.utils.bug_reports_message = lambda: ''
 
@@ -64,7 +61,26 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
         filename = data['url'] if stream else ytdl.prepare_filename(data)
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
-
+'''
+#雑学集用クラス定義
+class Zatugaku:
+    def __init__(self, score, title, description, from_or_kinds):
+        self.score         = score
+        self.title         = title
+        self.description   = description
+        self.from_or_kinds = from_or_kinds
+Z1 = Zatugaku(
+             "score",
+             "[title]",
+             "->description",
+             "kinds"
+)
+Z2 = Zatugaku(
+             "score2",
+             "[title2]",
+             "->description2",
+             "kinds2"
+)
 
 # ----------ボットの定義----------
 client = discord.Client()
@@ -103,6 +119,7 @@ async def on_message(message):
     JST        = datetime.timezone(datetime.timedelta(hours=+9), 'JST')
     date       = datetime.datetime.now(JST)
     print(f"[{date.strftime('%Y年%m月%d日 %H:%M:%S')}] {message.guild.name} >> {message.channel.name} >> {message.author.name}:{message.content}")
+
     # botチェック
     if message.author.bot:
         return
@@ -112,36 +129,56 @@ async def on_message(message):
         for i in range(len(list_vote)):
             await message.add_reaction(list_vote[i])
         return
+
     # オウム返し
     if isCommand(message,"rep(|eat)$") or isCommand(message,"rep(|eat)"):
         await message.delete()
         try:
             repData  = message.content.split("\\")
             repType  = repData[1]
-        except Exception as e:
-            print(e.args)
+        except IndexError:
+
+            embedData = discord.Embed(
+                title       = "⚠️Error内容⚠️",
+                description = "",
+                color       = discord.Colour(0xED4245)
+            )
+            embedData.add_field(
+                name  = "```Index Error```",
+                value = "$repeatの後ろに*空白を入れずに*、"+"`\`"+"<--バックスラッシュ-- を入れて\nその後ろに繰り返したい文字を入れてください"
+            )
+            embedData.set_thumbnail(url = "https://cdn.discordapp.com/emojis/570190733978632214.webp?size=96&quality=lossless")
+
+            await message.channel.send(embed = embedData)
+
         try:
             await message.channel.send(repType)
-        except IndexError:
-            await message.channel.send("文字が入力されていません。'''$repeat'''の後ろに文字を入れてください")
         except Exception as e:
             print(e.args)
         return
+
     # オウム返し２
     if isCommand(message,"oumu$"):
         await message.channel.send("このコマンドはターミナルから入力をする時に使うコマンドです")
         oumu = input("ここに文字を入力してオウム返し-->")
         await message.channel.send(oumu)
         return
-    # お遊び要素
+
+    # ----------お遊び要素----------
     if isCommand(message,"あなたは(|ロボットですか？)$"):
         await message.add_reaction("❌")
         async with message.channel.typing():
             await asyncio.sleep(5)
         msg = await message.reply("ﾆﾝｹﾞﾝﾀﾞﾖ")
         await msg.add_reaction("⭕")
-
         return
+
+    # ”giphy”からgif画像を取って貼り付ける（ねこ）
+    if isCommand(message,"cat$"):
+        await message.reply("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
+        return
+
+    # ffmpegは神
     if isCommand(message,"ffmpeg$"):
         kami = "<:kami:933925948259205171>"
         try:
@@ -151,36 +188,58 @@ async def on_message(message):
         except Exception as e:
             print(e.args)
         return
-    if isCommand(message,"(shibanyan|shibanyaan|しばねこ|しばにゃん|シバニャン|芝猫|芝ねこ|芝ネコ|さぎねこ|さぎにゃん詐欺にゃん|詐欺ねこ|詐欺猫|サギねこ|サギ猫)"):
+    # しばにゃん -> それは草
+    if isCommand(message,"(shibanyan|shibanyaan|しばねこ|しばにゃん|シバニャン|芝猫|芝ねこ|芝ネコ|さぎねこ|さぎにゃん|詐欺にゃん|詐欺ねこ|詐欺猫|サギねこ|サギ猫|しばねこさま|芝ねこ様|芝猫様|しばねこ様|しば猫さま|しば猫様)"):
         sore = "<:sore:933926434907521064>"
         kusa = "<:kusa:933925678867423263>"
         try:
             await message.channel.send(sore+"は"+kusa)
         except Exception as e:
             print(e.arg)
+    # ----------実用コマンド----------
+    # 雑学集ランダム表示[ErrorCode:000x1]
+    if isCommand(message,"zatu(|gaku)"):
+        Zlist = [Z1,Z2]
+        Zn    = random.choice(Zlist)
+        embedData = discord.Embed(
+            title = Zn.title,
+        )
+        embedData.add_field(
+            name  = Zn.score,
+            value = Zn.description
+        )
+        embedData.set_footer(
+            text = Zn.from_or_kinds
+        )
+        try:
+            await message.channel.send(embed = embedData)
+        except Exception as e:
+            await message.channel.send("不明なエラーが発生しました。詳細を開発者にお伝えください。または、githubでissueを立てることも可能です\n```ErrorCode:000x1```")
+        return
+
     # SIGES BOTのping値を返します
     if isCommand(message,"ping$"):
         raw_ping = client.latency
         ping = round(raw_ping * 1000)
         await message.reply(f"Pong!\nSIGES BotのPing値は{ping}msです。")
         return
+
     # 「やったぜ」と返す
     if isCommand(message,"yattaze$"):
         await message.reply("やったぜ")
         return
+
     # BOTが返信して挨拶する
     if isCommand(message,"greet$"):
         await message.reply(":smiley: :wave: Hello, there!")
         return
-    # ”giphy”からgif画像を取って貼り付ける（ねこ）
-    if isCommand(message,"cat$"):
-        await message.reply("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
-        return
+
     # おみくじを引く
     if isCommand(message,"omikuji$"):
         OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
         await message.reply("あなたの運勢は" + random.choice(OmikujiList) + "です")
         return
+
     # 足し算
     if isCommand(message,"add [0-9]+?"):
         data = re.findall(r'\d+',message.content)
@@ -189,6 +248,7 @@ async def on_message(message):
             ans += int(data[i])
         await message.reply(ans)
         return
+
     # 引き算
     if isCommand(message,"add [0-9]+?"):
         data = re.findall(r'\d+',message.content)
@@ -196,6 +256,7 @@ async def on_message(message):
         for i in range(len(data)):
             ans += int(data[i])
         await message.reply(ans)
+
     # 掛け算
     if isCommand(message,"mul [0-9]+?"):
         data = re.findall(r'\d+',message.content)
@@ -204,6 +265,7 @@ async def on_message(message):
             ans *= int(data[i])
         await message.reply(ans)
         return
+
     # 割り算
     if isCommand(message,"div [0-9]+?"):
         data = re.findall(r'\d+',message.content)
@@ -215,37 +277,46 @@ async def on_message(message):
         except ZeroDivisionError:
             await message.reply("are you serious?!")
         return
+
     # eval関数を利用した四則演算
     if isCommand(message,"eval .*"):
         await message.reply(mathEval(message))
         return
+
     # SIGES BOTのインフォメーションをembed形式で表示
     if isCommand(message,"info$"):
         embedData = discord.Embed(
             title       = "SIGESBOT",
             description = "",
             color       = discord.Colour(0x112f43),
-            timestamp   = date)
+            timestamp   = date
+        )
         embedData.add_field(
             name   = "Author",
             value  = "@SIGES_SSSPlide#6921",
-            inline = False)
+            inline = False
+        )
         embedData.add_field(
             name   = "Joined Servers",
             value  = f"{len(client.guilds)}",
-            inline = False)
+            inline = False
+        )
         embedData.add_field(
             name   = "Invite",
             value  = "https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=140727766081&scope=bot",
-            inline = False)
+            inline = False
+        )
         embedData.set_author(
             name     = "SIGES_SSSPlide",
             url      = "https://github.com/SIGESPLIDE/discordBOT-editible-",
-            icon_url = "https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128")
+            icon_url = "https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128"
+        )
         embedData.set_thumbnail(
-            url = "https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100")
+            url = "https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100"
+        )
         embedData.set_footer(
-            text = "this is Pre-release Discord bot")
+            text = "this is Pre-release Discord bot"
+        )
         await message.channel.send(embed=embedData)
         return
     #----------ここからpoll機能----------
@@ -377,7 +448,15 @@ async def on_message(message):
         #await message.send(f"Now playing {info['title']}.")
 
         #voice.play(FFmpegPCMAudio(source, **FFMPEG_OPTS), after=lambda e: print('done', e))
+<<<<<<< HEAD
+<<<<<<< HEAD
         #voice.is_playing()
+=======
+        voice.is_playing()
+>>>>>>> 微調整
+=======
+        #voice.is_playing()
+>>>>>>> 微調節
 
         # youtubeから音楽をダウンロードする
         # player = await YTDLSource.from_url(url, loop=client.loop)
@@ -401,6 +480,7 @@ async def on_message(message):
         await message.channel.send("stopped!")
         return
         '''
+    
     if isCommand(message,".*$"):
         await message.add_reaction("❓")
         await message.add_reaction("🤔")
