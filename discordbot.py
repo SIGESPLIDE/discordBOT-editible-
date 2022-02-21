@@ -78,27 +78,6 @@ class Zatugaku:
         self.thumbnail     = thumbnail
         self.point         = point # <--デバッグ用--
 
-    def getScore(self):
-        return self.score
-
-    def getTitle(self):
-        return self.title
-
-    def getDescription(self):
-        return self.description
-
-    def getFromorkinds(self):
-        return self.fromorkinds
-
-    def getUrl(self):
-        return self.url
-
-    def getThumbnail(self):
-        return self.thumbnail
-
-    def getPoint(self):   #-------------#
-        return self.point #　デバッグ用　#
-                          #-------------#
 Zatulist = [Zatugaku(
                     "ホワイトタイガーは正確にはベンガルトラの白変種で、野生では見ることができなくなってしまったほどの珍しさ。",
                     "[トラは狩りの成功率が10%！？]",
@@ -369,51 +348,24 @@ Zatulist = [Zatugaku(
                     "25"
                     ),
             Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "生活",
-                    "https://kurashi-no.jp/I0023637",
-                    "",
-                    "26"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "生活",
-                    "https://kurashi-no.jp/I0023637",
-                    "",
-                    "27"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "生活",
-                    "https://kurashi-no.jp/I0023637",
-                    "",
-                    "28"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "生活",
-                    "https://kurashi-no.jp/I0023637",
-                    "",
-                    "29"
-                    ),
-            #template here ↓↓
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "thumbnail",
-                    "n"
-                    )
+                None,
+                None,
+                None,
+                None,
+                None,
+                None,
+                None
+            )
+            # template here ↓↓
+            #Zatugaku(
+            #        "score",
+            #        "[title]",
+            #        "->des",
+            #        "動物",
+            #        "url",
+            #        "thumbnail",
+            #        "n"
+            #        )
 ]
 
 # -------------------------------
@@ -448,6 +400,26 @@ async def on_ready():
         type=discord.ActivityType.playing
     )
     await client.change_presence(activity=activityData)
+
+async def errorMessage(message,err):
+    # 入力待機
+    async with message.channel.typing():
+        await asyncio.sleep(2)
+    # データ準備
+    embedData       = discord.Embed(
+        title       = "エラーが発生しました。",
+        description = "可能であれば詳細を開発者にお伝えください。\nまたは、githubでissueを立てることも可能です"
+    )
+    embedData.add_field(
+        inline  = False,
+        name    = "Error Data:",
+        value   = "\n```cs\n " +
+        "# Uncaught ReferenceError : contents is missing\n" +
+        f"| Error code :\"{err}\" |\n" +
+        "|こちらのエラ―コ―ド|を開発者へお伝えください。```"
+    )
+    # 送信
+    await message.channel.send(embed = embedData)
 
 # ---------------------------------
 # ----------チャットに反応----------
@@ -548,43 +520,23 @@ async def on_message(message):
 
     # 雑学集ランダム表示[ErrorCode:000x{point}]
     if isCommand(message,"zatu(|gaku)"):
-        Z = random.choice(Zatulist)
-        S = Z.getScore()
-        T = Z.getTitle()
-        D = Z.getDescription()
-        F = Z.getFromorkinds()
-        U = Z.getUrl()
-        B = Z.getThumbnail()
-        P = Z.getPoint()
-        if S == "score" or T == "[title]" or D == "->des" or U == "url":
-            async with message.channel.typing():
-                await asyncio.sleep(2)
-            embedData       = discord.Embed(
-                title       = "エラーが発生しました。",
-                description = "可能であれば詳細を開発者にお伝えください。\nまたは、githubでissueを立てることも可能です"
-            )
-            embedData.add_field(
-                name    = "Error Data:",
-                value   = "\n```cs\n# Uncaught ReferenceError : contents is missing\n| error code 000x"+P+ " |"+"\n|こちらのエラ―コ―ド|を開発者へお伝えください。```"
-            )
-            await message.channel.send(embed = embedData)
+        data = random.choice(Zatulist)
+        if not data or not data.description:
+            await errorMessage(message,"Unknown Data L532")
             return
 
         else:
             embedData       = discord.Embed(
-                title       = T,
-                description = "そんなの知らなかった！ ～"+F+"に関する雑学～",
-                url         = U
-            )
-            embedData.set_image(
-                url   = B
+                title       = data.title,
+                description = f"そんなの知らなかった！ ～{data.fromorkinds}に関する雑学～",
+                url         = data.url
             )
             embedData.add_field(
-                name  = S,
-                value = "\n"+D
+                name  = data.score,
+                value = "\n"+data.description
             )
             embedData.set_footer(
-                text = "カテゴリー:"+F
+                text = "カテゴリー:"+data.fromorkinds
             )
             await message.channel.send(embed = embedData)
             return
@@ -800,8 +752,6 @@ async def on_message(message):
         await message.channel.send(embed=embedData)
         return
 
-    # なんだっけ
-    #if hoegehoge == hage:
     #---------------実装予定のvoice機能-----------------#
     '''
     # Suppress noise about console usage from errors
