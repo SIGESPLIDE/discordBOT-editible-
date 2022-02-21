@@ -70,13 +70,9 @@ class YTDLSource(discord.PCMVolumeTransformer):
 #雑学集用クラス定義
 class Zatugaku:
     def __init__(self, score, title, description, fromorkinds, url, thumbnail, point):
-        self.score         = score
-        self.title         = title
-        self.description   = description
-        self.fromorkinds   = fromorkinds
-        self.url           = url
-        self.thumbnail     = thumbnail
-        self.point         = point # <--デバッグ用--
+        for key,value in locals().items():
+            if not key == 'self':
+                self.__dict__[key] = value
 
 Zatulist = [Zatugaku(
                     "ホワイトタイガーは正確にはベンガルトラの白変種で、野生では見ることができなくなってしまったほどの珍しさ。",
