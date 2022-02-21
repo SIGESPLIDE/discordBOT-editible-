@@ -81,6 +81,12 @@ Z2 = Zatugaku(
              "->description2",
              "kinds2"
 )
+Z3 = Zatugaku(
+             "score3",
+             "[title3]",
+             "->description3",
+             "kinds3"
+)
 
 # ----------ボットの定義----------
 client = discord.Client()
