@@ -69,12 +69,13 @@ class YTDLSource(discord.PCMVolumeTransformer):
 
 #雑学集用クラス定義
 class Zatugaku:
-    def __init__(self, score, title, description, fromorkinds, url, point):
+    def __init__(self, score, title, description, fromorkinds, url, thumbnail, point):
         self.score         = score
         self.title         = title
         self.description   = description
         self.fromorkinds   = fromorkinds
         self.url           = url
+        self.thumbnail     = thumbnail
         self.point         = point # <--デバッグ用--
 
     def getScore(self):
@@ -92,6 +93,9 @@ class Zatugaku:
     def getUrl(self):
         return self.url
 
+    def getThumbnail(self):
+        return self.thumbnail
+
     def getPoint(self):   #-------------#
         return self.point #　デバッグ用　#
                           #-------------#
@@ -102,6 +106,7 @@ Zatulist = [Zatugaku(
                     "しかも狩りのチャンスは一日1～2回くらいだとか",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "0"
                     ),
             Zatugaku(
@@ -112,6 +117,7 @@ Zatulist = [Zatugaku(
                     "ウサギは、これを再び食べることでタンパク質などの栄養をとっているそうだ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "1"
                     ),
             Zatugaku(
@@ -122,6 +128,7 @@ Zatulist = [Zatugaku(
                     "省エネで一日中寝るしかなくなってしまったという。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "2"
                     ),
             Zatugaku(
@@ -132,6 +139,7 @@ Zatulist = [Zatugaku(
                     "なかなか獲物の居場所が突き止められないことも。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "3"
                     ),
             Zatugaku(
@@ -142,6 +150,7 @@ Zatulist = [Zatugaku(
                     "体はいつもテカり、触るとベトベトするだけでなく茶色の体液がついてしまう。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "4"
                     ),
             Zatugaku(
@@ -151,6 +160,7 @@ Zatulist = [Zatugaku(
                     "「初顔認知日」としてカンガルーの誕生日としているのだ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "5"
                     ),
             Zatugaku(
@@ -161,6 +171,7 @@ Zatulist = [Zatugaku(
                     "赤い液体を飲んで、徐々に羽が色づくフラミンゴ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "6"
                     ),
             Zatugaku(
@@ -170,6 +181,7 @@ Zatulist = [Zatugaku(
                     "このゲロには胃液も混ざっているため、とてもくさいらしいぞ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "7"
                     ),
             Zatugaku(
@@ -179,6 +191,7 @@ Zatulist = [Zatugaku(
                     "子どもは大人から弱ったサソリを与えられ狩りの特訓を受けるという。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "8"
                     ),
             Zatugaku(
@@ -189,6 +202,7 @@ Zatulist = [Zatugaku(
                     "つまり「パンダ」の呼び名を、後から見つかったジャイアントパンダに奪われてしまったというわけだ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "9"
                     ),
             Zatugaku(
@@ -198,6 +212,7 @@ Zatulist = [Zatugaku(
                     "石などのでこぼこした場所に体をこすりつけたりして笑顔を見せることもあるらしいぞ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "10"
                     ),
             Zatugaku(
@@ -207,6 +222,7 @@ Zatulist = [Zatugaku(
                     "->実は昆虫は動きの遅いものは風景と見分けがつかず、スローに近づかれると簡単に捕まえられてしまうのだ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "11"
                     ),
             Zatugaku(
@@ -216,6 +232,7 @@ Zatulist = [Zatugaku(
                     "->しかしかくれんぼに失敗すると、今度は体を精一杯大きくしてクジャクのポーズで威嚇！痩せたり太ったり、大忙しなのである。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "12"
                     ),
             Zatugaku(
@@ -225,6 +242,7 @@ Zatulist = [Zatugaku(
                     "砂漠の地面に穴を掘ってお尻を突っ込み、冷たい地面に体をつけて熱を逃がすのだ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "13"
                     ),
             Zatugaku(
@@ -234,6 +252,7 @@ Zatulist = [Zatugaku(
                     "大人になるにつれ皮膚が鮮やかに色づくのは、もちろんメスの気を引くため。子どもをつくる準備が整った合図なのだ。",
                     "動物",
                     "https://www.jalan.net/news/article/466810/",
+                    "",
                     "14"
                     ),
             Zatugaku(
@@ -243,6 +262,7 @@ Zatulist = [Zatugaku(
                     "中々冷えなくて困ることがありますよね。そんな時は、室外機の温度を下げてみましょう。",
                     "生活",
                     "https://kurashi-no.jp/I0023637",
+                    "",
                     "15"
                     ),
             Zatugaku(
@@ -252,122 +272,148 @@ Zatulist = [Zatugaku(
                     "手の汚れや皮脂は洗剤を吸い取っており、手袋をつけるだけで、約3分の1程度で同じ泡立ちが期待出来ます。",
                     "生活",
                     "https://kurashi-no.jp/I0023637",
+                    "",
                     "16"
                     ),
             Zatugaku(
                     "お風呂の床は垢がたまる場所であり、中々美しい状態になりませんよね。そんな時は、今話題のオキシ漬けを試してみましょう！",
                     "[風呂床を綺麗にする裏ワザ]",
-                    "->コストコで今売れている商品「オキシクリーン」をお風呂の床に使用して放っておくだけで、驚くほど綺麗になります。放っておくだけの掃除方法は嬉しいですよね！",
+                    "->コストコで今売れている商品「オキシクリーン」をお風呂の床に使用して放っておくだけで\n"+
+                    "驚くほど綺麗になります。放っておくだけの掃除方法は嬉しいですよね！",
                     "生活",
                     "https://kurashi-no.jp/I0023637",
+                    "",
                     "17"
                     ),
             Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
+                    "電子レンジは汚れが飛び散っていて、しかも乾燥していると中々綺麗になりまえんよね。",
+                    "[電子レンジ掃除の裏ワザ]",
+                    "->そんな時は、水を入れたコップをチンして、水蒸気を壁にあててから掃除してみましょう！\n"+
+                    "汚れがとれやすくなり、掃除時間が大幅短縮されますよ。\n"+
+                    "重曹を入れれば更に効果が上がりますが、その際は念入りに拭き取るようにしましょう。",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
                     "18"
                     ),
             Zatugaku(
+                    "洗濯機を回すのは中々時間がかかりますよね。",
+                    "[脱水スピードを上げる裏ワザ]",
+                    "->大量の洗濯物だと効果が薄れてしまいますが、少量であれば乾いたバスタオルを脱水時に入れるだけで\n"+
+                    "脱水スピードが大幅上昇します。たかだかタオル一枚なのですが、とても効果がありますので試してみましょう！",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "19"
+                    ),
+            Zatugaku(
+                    "多くの方は、服をそのまま洗濯機に入れていますよね。",
+                    "[服の汚れをしっかり落とす豆知識]",
+                    "->しかし、汗の汚れや皮脂の汚れは、服の裏側についていますので、服を裏返しにして洗濯するだけで\n"+
+                    "汚れの落ち方が良くなります。脱ぐときに裏返しにしておくだけで効果がありますので、簡単なのが嬉しいですよね！",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "20"
+                    ),
+            Zatugaku(
+                    "寒い季節が近づいてくると食べたくなるのが焼いも。",
+                    "[焼き芋を簡単に作る裏ワザ]",
+                    "->実は炊飯器で作れてしまうのです。画像のようにサツマイモを入れ\n"+
+                    "水を3㎝くらいの高さまで入れて、炊飯ボタンを押すだけ。これでしっとり系の焼いもが簡単に作れてしまいます。",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "https://www.instagram.com/p/BNq8U00BRX7/?utm_source=ig_embed&ig_rid=e707ac23-175a-424b-aab2-0b2121bff4af",
+                    "21"
+                    ),
+            Zatugaku(
+                    "料理に欠かせないのが包丁。しかし、料理をするにつれ切れ味が悪くなっていきますよね。\n"+
+                    "そんな時に試したいのが、アルミホイルで刃を研ぐ方法です。",
+                    "[包丁を簡単に研ぐ裏ワザ]",
+                    "->アルミホイルはとても薄いので、刃を研げるなんて信じられないという方もいるかもしれませんが\n"+
+                    "何枚かに重ねたアルミホイルで覆って、包丁をひくだけで研げるのです！",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "22"
+                    ),
+            Zatugaku(
+                    "タイツを履いていると、パンプスを履いた時に脱げやすくなりますよね。",
+                    "[タイツでかかとが脱げてしまうのを防ぐ裏ワザ]",
+                    "->そんな時に便利なのが、ヘアスプレーです。ヘアスプレーは粘着力がありますので\n"+
+                    "すべってしまう箇所にかけておくだけで脱げにくくなります。靴側にかけるのが基本ですが、タイツにかけても効果がありますよ！",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "23"
+                    ),
+            Zatugaku(
+                    "服に穴が開いてしまった時、多くの方が自分で縫って直していますよね。",
+                    "[針の穴に糸を通す裏ワザ]",
+                    "->そんな時にイライラするのが、針の穴に糸を通す作業です。実はここでもヘアスプレーが活躍します。\n"+
+                    "糸の先端にヘアスプレーをかけてねじるだけで、糸がしっかり固まり、針穴に通すのがとても楽になりますよ！",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "24"
+                    ),
+            Zatugaku(
+                    "特に賃貸住まいだと、部屋が狭くなりがちですよね。",
+                    "[部屋を広く見せる裏ワザ①]",
+                    "->そんな時に行いたいのが、「棚の真ん中を開ける」方法です。\n"+
+                    "狭い部屋でも収納出来るようにと、多くの方が棚に物を押し込んでいますが、\n"+
+                    "棚の真ん中だけでも開けておくと部屋が広く見える効果があります。是非試してみましょう！",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "25"
+                    ),
+            Zatugaku(
                     "score",
                     "[title]",
                     "->des",
-                    "動物",
-                    "url",
-                    "n"
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "26"
                     ),
+            Zatugaku(
+                    "score",
+                    "[title]",
+                    "->des",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "27"
+                    ),
+            Zatugaku(
+                    "score",
+                    "[title]",
+                    "->des",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "28"
+                    ),
+            Zatugaku(
+                    "score",
+                    "[title]",
+                    "->des",
+                    "生活",
+                    "https://kurashi-no.jp/I0023637",
+                    "",
+                    "29"
+                    ),
+            #template here ↓↓
             Zatugaku(
                     "score",
                     "[title]",
                     "->des",
                     "動物",
                     "url",
+                    "thumbnail",
                     "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),
-            '''template here ↓↓
-            Zatugaku(
-                    "score",
-                    "[title]",
-                    "->des",
-                    "動物",
-                    "url",
-                    "n"
-                    ),'''
-
+                    )
 ]
 
 # -------------------------------
@@ -508,28 +554,40 @@ async def on_message(message):
         D = Z.getDescription()
         F = Z.getFromorkinds()
         U = Z.getUrl()
+        B = Z.getThumbnail()
         P = Z.getPoint()
-
-        embedData       = discord.Embed(
-            title       = T,
-            description = "そんなの知らなかった！ ～"+F+"に関する雑学～",
-            url         = U
-        )
-        embedData.add_field(
-            name  = S,
-            value = "\n"+D
-        )
-        embedData.set_footer(
-            text = "カテゴリー:"+F
-        )
-        try:
+        if S == "score" or T == "[title]" or D == "->des" or U == "url":
+            async with message.channel.typing():
+                await asyncio.sleep(2)
+            embedData       = discord.Embed(
+                title       = "エラーが発生しました。",
+                description = "可能であれば詳細を開発者にお伝えください。\nまたは、githubでissueを立てることも可能です"
+            )
+            embedData.add_field(
+                name    = "Error Data:",
+                value   = "\n```cs\n# Uncaught ReferenceError : contents is missing\n| error code 000x"+P+ " |"+"\n|こちらのエラ―コ―ド|を開発者へお伝えください。```"
+            )
             await message.channel.send(embed = embedData)
-        except Exception as e:
-            if S == "score" or T == "[title]" or D == "->des" or U == "url":
-                async with message.channel.typing():
-                    await asyncio.sleep(2)
-                await message.channel.send(f"エラーが発生しました。可能であれば詳細を開発者にお伝えください。または、githubでissueを立てることも可能です\n```cs\n# ReferenceError : missing part\n ||error code 000x"+P+"\nこちらのエラーコードを開発者へお伝えください。```")
-        return
+            return
+
+        else:
+            embedData       = discord.Embed(
+                title       = T,
+                description = "そんなの知らなかった！ ～"+F+"に関する雑学～",
+                url         = U
+            )
+            embedData.set_image(
+                url   = B
+            )
+            embedData.add_field(
+                name  = S,
+                value = "\n"+D
+            )
+            embedData.set_footer(
+                text = "カテゴリー:"+F
+            )
+            await message.channel.send(embed = embedData)
+            return
 
     # SIGES BOTのping値を返します
     if isCommand(message,"ping$"):
@@ -599,26 +657,26 @@ async def on_message(message):
 
     # SIGES BOTのインフォメーションをembed形式で表示
     if isCommand(message,"info$"):
-        embedData = discord.Embed(
+        embedData       = discord.Embed(
             title       = "SIGESBOT",
             description = "",
             color       = discord.Colour(0x112f43),
             timestamp   = date
         )
         embedData.add_field(
-            name   = "Author",
-            value  = "@SIGES_SSSPlide#6921",
-            inline = False
+            name     = "Author",
+            value    = "@SIGES_SSSPlide#6921",
+            inline   = False
         )
         embedData.add_field(
-            name   = "Joined Servers",
-            value  = f"{len(client.guilds)}",
-            inline = False
+            name     = "Joined Servers",
+            value    = f"{len(client.guilds)}",
+            inline   = False
         )
         embedData.add_field(
-            name   = "Invite",
-            value  = "https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=140727766081&scope=bot",
-            inline = False
+            name     = "Invite",
+            value    = "https://discord.com/api/oauth2/authorize?client_id=933370022296965160&permissions=140727766081&scope=bot",
+            inline   = False
         )
         embedData.set_author(
             name     = "SIGES_SSSPlide",
@@ -729,7 +787,7 @@ async def on_message(message):
         embedData.add_field(name = "**__$number__**", value = "１から１０までの数字のリアクションを追加します")
         embedData.set_thumbnail(url = "https://cdn.discordapp.com/emojis/933926187619733545.webp?size=96&quality=lossless")
         '''
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
+        embedData.add_field(name = "**__$repeat__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
