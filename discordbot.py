@@ -733,8 +733,9 @@ async def on_message(message):
         return
 
     if isCommand(message, "com(|bineyen)"):
+        comData = [0,0,0,0,0,0,0,0,0,0]
         comData = message.content.split(" ")
-        comData = comData[1:10]
+        comData = comData[1:11]
         if comData[0] == "help":
             embedData = discord.Embed(
                 title = "$com使用例"
@@ -754,7 +755,10 @@ async def on_message(message):
         for i in range(len(comData)):
             try:
                 m = int(comData[i])
+                print(i)
                 sum += m*ilist[i]
+                #print(comData[i])
+                print(sum)
 
             except ValueError as e:
                 quit(f"エラーが発生したのでプログラムを終了します\nエラー＝{e.args}")
