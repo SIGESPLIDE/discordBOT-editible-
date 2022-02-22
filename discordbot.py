@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# --------------------------------------------
-# ----------必要なパッケージを読み込み----------
-# --------------------------------------------
+# -------------------------------------------- #
+# --------　必要なパッケージを読み込み　-------- #
+# -------------------------------------------- #
 
 # 標準パッケージじゃない
 from webbrowser import get
@@ -67,11 +67,14 @@ class YTDLSource(discord.PCMVolumeTransformer):
         return cls(discord.FFmpegPCMAudio(filename, **ffmpeg_options), data=data)
 '''
 
-#雑学集用クラス定義
+# ---------------------------------- #
+# -------- 雑学集用クラス定義 ------- #
+# ---------------------------------- #
+'''
 class Zatugaku:
     def __init__(self, score, title, description, fromorkinds, url, thumbnail, point):
-        for key,value in locals().items():
-            if not key == 'self':
+        for key,value in locals.items():
+            if not key == "self":
                 self.__dict__[key] = value
 
 Zatulist = [Zatugaku(
@@ -363,7 +366,7 @@ Zatulist = [Zatugaku(
             #        "n"
             #        )
 ]
-
+'''
 # -------------------------------
 # ----------ボットの定義----------
 # -------------------------------
@@ -374,7 +377,7 @@ list_OKNO  = ['👍','👎']
 list_yesno = ['⭕', '❌']
 list_vote = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
 
-# text系関数
+# ##########text系関数##########
 def isCommand(message,match):
     return re.match("^"+prefix+match,message.content)
 
@@ -386,7 +389,7 @@ def mathEval(message):
     except Exception as e:
         return ("```cs\n# Error : %s ```" % str(e))
 
-# 起動時にコール
+# ##########起動時にコール##########
 @client.event
 async def on_ready():
     print("%sでログインしました" % (client.user.name))
@@ -428,7 +431,7 @@ async def on_message(message):
     date       = datetime.datetime.now(JST)
     print(f"[{date.strftime('%Y年%m月%d日 %H:%M:%S')}] {message.guild.name} >> {message.channel.name} >> {message.author.name}:{message.content}")
 
-    # botチェック
+    # ----------botチェック----------
     if message.author.bot:
         return
 
@@ -440,7 +443,7 @@ async def on_message(message):
             await message.add_reaction(list_vote[i])
         return
 
-    # オウム返し
+    # ----------オウム返し----------
     if isCommand(message,"rep(|eat)$") or isCommand(message,"rep(|eat)"):
         await message.delete()
 
@@ -466,7 +469,7 @@ async def on_message(message):
             print(e.args)
         return
 
-    # オウム返し２
+    # ----------オウム返し２----------
     if isCommand(message,"oumu$"):
         await message.channel.send("このコマンドはターミナルから入力をする時に使うコマンドです")
         oumu = input("ここに文字を入力してオウム返し-->")
@@ -485,12 +488,12 @@ async def on_message(message):
         await msg.add_reaction("⭕")
         return
 
-    # ”giphy”からgif画像を取って貼り付ける（ねこ）
+    # ----------”giphy”からgif画像を取って貼り付ける（ねこ）----------
     if isCommand(message,"cat$"):
         await message.reply("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
         return
 
-    # ffmpegは神
+    # ----------ffmpegは神----------
     if isCommand(message,"ffmpeg$"):
         kami = "<:kami:933925948259205171>"
         try:
@@ -501,7 +504,7 @@ async def on_message(message):
             print(e.args)
         return
 
-    # しばにゃん -> それは草
+    # ----------しばにゃん -> それは草----------
     if isCommand(message,"(shibanyan|shibanyaan|しばねこ|しばにゃん|シバニャン|芝猫|芝ねこ|芝ネコ|さぎねこ|さぎにゃん|詐欺にゃん|詐欺ねこ|詐欺猫|サギねこ|サギ猫|しばねこさま|芝ねこ様|芝猫様|しばねこ様|しば猫さま|しば猫様)"):
         sore = "<:sore:933926434907521064>"
         kusa = "<:kusa:933925678867423263>"
@@ -512,9 +515,9 @@ async def on_message(message):
 
     # -------------------------------
     # ----------実用コマンド----------
-    #--------------------------------
+    # -------------------------------
 
-    # 雑学集ランダム表示[ErrorCode:000x{point}]
+    # ----------雑学集ランダム表示[ErrorCode:000x{point}]----------
     if isCommand(message,"zatu(|gaku)"):
         data = random.choice(Zatulist)
         if not data or not data.description:
@@ -537,30 +540,31 @@ async def on_message(message):
             await message.channel.send(embed = embedData)
             return
 
-    # SIGES BOTのping値を返します
+    # ----------SIGES BOTのping値を返します----------
     if isCommand(message,"ping$"):
         raw_ping = client.latency
         ping = round(raw_ping * 1000)
         await message.reply(f"Pong!\nSIGES BotのPing値は{ping}msです。")
         return
 
-    # 「やったぜ」と返す
+    # ----------「やったぜ」と返す----------
     if isCommand(message,"yattaze$"):
         await message.reply("やったぜ")
         return
 
-    # BOTが返信して挨拶する
+    # ----------BOTが返信して挨拶する----------
     if isCommand(message,"greet$"):
         await message.reply(":smiley: :wave: Hello, there!")
         return
 
-    # おみくじを引く
+    # ----------おみくじを引く----------
     if isCommand(message,"omikuji$"):
         OmikujiList = ['大吉', '吉', '中吉', '小吉', '半吉', '末吉', '末小吉', '平', '凶', '小凶', '半凶', '末凶', '大凶']
         await message.reply("あなたの運勢は" + random.choice(OmikujiList) + "です")
         return
 
-    # 足し算
+
+    # ----------足し算----------
     if isCommand(message,"add [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = 0
@@ -569,7 +573,7 @@ async def on_message(message):
         await message.reply(ans)
         return
 
-    # 引き算
+    # ----------引き算----------
     if isCommand(message,"add [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = 0
@@ -577,7 +581,7 @@ async def on_message(message):
             ans += int(data[i])
         await message.reply(ans)
 
-    # 掛け算
+    # ----------掛け算----------
     if isCommand(message,"mul [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = 0
@@ -586,7 +590,7 @@ async def on_message(message):
         await message.reply(ans)
         return
 
-    # 割り算
+    # ----------割り算----------
     if isCommand(message,"div [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = float(data[0])
@@ -598,10 +602,12 @@ async def on_message(message):
             await message.reply("are you serious?!")
         return
 
-    # eval関数を利用した四則演算
+    # ----------eval関数を利用した四則演算----------
     if isCommand(message,"eval .*"):
         await message.reply(mathEval(message))
         return
+
+
 
     # SIGES BOTのインフォメーションをembed形式で表示
     if isCommand(message,"info$"):
@@ -640,7 +646,97 @@ async def on_message(message):
         await message.channel.send(embed=embedData)
         return
 
-    #----------ここからpoll機能----------
+    if isCommand(message, "(splityen|spy) [0-9]?"):
+        spyData = message.content.split(" ")
+        spyType = int(spyData[1])
+        money   = spyType
+
+        try:
+            embedData       = discord.Embed(
+                title       = "金種逆算シミュレーター⌨️💰",
+                description = f"金額:{money}円"
+            )
+
+            maisuu     = money // 10000
+            money      = money % 10000
+            embedData.add_field(
+                name   = "一万円札（10,000yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu     = money // 5000
+            money      = money % 5000
+            embedData.add_field(
+                name   = '五千円札（5,000yen）',
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu     = money // 1000
+            money      = money % 1000
+            embedData.add_field(
+                name   = "千円札（1,000yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu     = money // 500
+            money      = money % 500
+            embedData.add_field(
+                name   = "五百円玉（500yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu      = money // 100
+            money       = money % 100
+            embedData.add_field(
+                name   = "百円玉（100yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu     = money // 50
+            money      = money % 50
+            embedData.add_field(
+                name   = "五十円玉（50yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu     = money // 10
+            money      = money % 10
+            embedData.add_field(
+                name   = "十円（10yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            maisuu     = money // 5
+            money      = money % 5
+            embedData.add_field(
+                name   = "五円玉（5yen）",
+                value  = f"{maisuu}枚",
+                inline = False
+            )
+
+            embedData.add_field(
+                name  = "一円玉（1yen）",
+                value = f"{money}枚",
+                inline = False
+            )
+
+            await message.channel.send(embed = embedData)
+        except ValueError:
+            await message.channel.send("エラー。数字以外の文字を検知しました。初めからやり直してください")
+        return
+
+
+
+    # ----------------------------------- #
+    # --------　ここからpoll機能　-------- #
+    # ----------------------------------- #
     if isCommand(message,"que(|stion) (yes(|-no)|ok(|-no)|vote|help)"):
         # セパレータによる不自然な挙動を防止
         if re.match(".*\s{2,}",message.content):
@@ -729,6 +825,7 @@ async def on_message(message):
             await message.channel.send("質問の入力形式に間違いがあります (引数が足りません)")
             return
 
+
     # 使用可能コマンドを確認
     if isCommand(message,"help$"):
         embedData = discord.Embed(title = "使用可能コマンド一覧", description = "現在メンテナンス中", color = discord.Colour(0x2ecc71))
@@ -747,6 +844,7 @@ async def on_message(message):
         '''
         await message.channel.send(embed=embedData)
         return
+
 
     #---------------実装予定のvoice機能-----------------#
     '''
