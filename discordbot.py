@@ -46,8 +46,8 @@ ytdl = youtube_dl.YoutubeDL(ytdl_format_options)
 
 
 class YTDLSource(discord.PCMVolumeTransformer):
-    def __init__(self, source, *, data, volume=0.5):
-        super().__init__(source, volume)
+    def init(self, source, *, data, volume=0.5):
+        super().init(source, volume)
 
         self.data = data
 
@@ -72,10 +72,10 @@ class YTDLSource(discord.PCMVolumeTransformer):
 # ---------------------------------- #
 '''
 class Zatugaku:
-    def __init__(self, score, title, description, fromorkinds, url, thumbnail, point):
+    def init(self, score, title, description, fromorkinds, url, thumbnail, point):
         for key,value in locals.items():
             if not key == "self":
-                self.__dict__[key] = value
+                self.dict[key] = value
 
 Zatulist = [Zatugaku(
                     "ホワイトタイガーは正確にはベンガルトラの白変種で、野生では見ることができなくなってしまったほどの珍しさ。",
@@ -732,7 +732,36 @@ async def on_message(message):
             await message.channel.send("エラー。数字以外の文字を検知しました。初めからやり直してください")
         return
 
+    if isCommand(message, "com(|bineyen)"):
+        comData = message.content.split(" ")
+        comData = comData[1:10]
+        if comData[0] == "help":
+            embedData = discord.Embed(
+                title = "$com使用例"
+            )
+            embedData.add_field(
+                name  = "␣には空白(スペース)を入れてください",
+                value = "$com␣1円の枚数␣5円の枚数␣10円の枚数␣50円の枚数␣100円の枚数␣500円の枚数␣1000円の枚数␣2000円の枚数␣5000円の枚数␣10000円の枚数"
+            )
+            return await message.channel.send(embed=embedData)
+        select = len(comData)
+        if select == 0:
+            await message.channel.send("!各枚数は10項目です。各10項目に数字を入力してください")
+            return
 
+        sum = 0
+        ilist = [1, 5, 10, 50, 100, 500, 1000, 2000, 5000, 10000]
+        for i in range(len(comData)):
+            try:
+                m = int(comData[i])
+                sum += m*ilist[i]
+
+            except ValueError as e:
+                quit(f"エラーが発生したのでプログラムを終了します\nエラー＝{e.args}")
+
+        await message.channel.send(f"合計金額は{sum}円です")
+        print(f"合計金額は{sum}円です")
+        return
 
     # ----------------------------------- #
     # --------　ここからpoll機能　-------- #
@@ -800,10 +829,10 @@ async def on_message(message):
                     '注意 : 質問文や選択肢に"空欄"を含めないでください\n'
                     '\n'
                     '**[TYPE] : "yes-no" or "vote"**\n'
-                    '__"yes-no" :__\n'
+                    '"yes-no" :\n'
                     'Yes-No疑問文を作成します\n'
                     '[CANDIDATE]は必要ありません\n'
-                    '__"vote" :__\n'
+                    '"vote" :\n'
                     '選択肢が複数ある質問を作成します\n'
                     '[CANDIDATE]がない場合は質問文だけ表示されます\n'
                     '\n'
@@ -829,19 +858,19 @@ async def on_message(message):
     # 使用可能コマンドを確認
     if isCommand(message,"help$"):
         embedData = discord.Embed(title = "使用可能コマンド一覧", description = "現在メンテナンス中", color = discord.Colour(0x2ecc71))
-        embedData.add_field(name = "**__$number__**", value = "１から１０までの数字のリアクションを追加します")
+        embedData.add_field(name = "**$number**", value = "１から１０までの数字のリアクションを追加します")
+        embedData.add_field(name = "**$repeat**", value = "BOTは打った文字をオウム返ししてくれます", inline = False)
+        embedData.add_field(name = "**$question**", value = "⭕ ❌質問や、多項目の質問を作成します\n詳しくは\"$question help\"で確認できます", inline = False)
+        embedData.add_field(name = "**$ping**", value = "BOTのping値を返します", inline = False)
+        '''
+        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
+        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
+        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
+        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
+        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
+        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
+        '''
         embedData.set_thumbnail(url = "https://cdn.discordapp.com/emojis/933926187619733545.webp?size=96&quality=lossless")
-        '''
-        embedData.add_field(name = "**__$repeat__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        embedData.add_field(name = "**__$number__**", value = "ping値を返します", inline = False)
-        '''
         await message.channel.send(embed=embedData)
         return
 
