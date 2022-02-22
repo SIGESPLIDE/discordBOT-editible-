@@ -70,10 +70,6 @@ class YTDLSource(discord.PCMVolumeTransformer):
 # ---------------------------------- #
 # -------- 雑学集用クラス定義 ------- #
 # ---------------------------------- #
-<<<<<<< HEAD
-
-=======
->>>>>>> d361980163ae81546903e69f4cf51cfebb9cdc8e
 class Zatugaku:
     def __init__(self, score, title, description, fromorkinds, url, thumbnail, point):
         for key,value in locals().items():
@@ -369,10 +365,6 @@ Zatulist = [Zatugaku(
             #        "n"
             #        )
 ]
-<<<<<<< HEAD
-
-=======
->>>>>>> d361980163ae81546903e69f4cf51cfebb9cdc8e
 # -------------------------------
 # ----------ボットの定義----------
 # -------------------------------
@@ -761,10 +753,10 @@ async def on_message(message):
         for i in range(len(comData)):
             try:
                 m = int(comData[i])
-                print(i)
                 sum += m*ilist[i]
-                #print(comData[i])
-                print(sum)
+                #print(i)           # ----------- #
+                #print(comData[i])  #　デバッグ用　#
+                #print(sum)         # ----------- #
 
             except ValueError as e:
                 quit(f"エラーが発生したのでプログラムを終了します\nエラー＝{e.args}")
