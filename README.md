@@ -28,6 +28,12 @@ python3 discordbot.py
   
 ## -botｺﾏﾝﾄﾞ-  
 ### TTS関連  
+```PlantUML
+$add|ition a b ...->aとbを加算します
+```
+
+graph LR
+  $sub|straction a b ... --> aとbの減算をします
 `$add a b `:aとbを加算します 
 
 `$cat`:ﾈｺ 
