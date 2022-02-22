@@ -8,6 +8,9 @@
 from webbrowser import get
 import timeout_decorator
 import discord
+from discord.utils import get
+import math
+
 #import youtube_dl
 #from requests import get
 
@@ -486,6 +489,11 @@ async def on_message(message):
         await msg.add_reaction("⭕")
         return
 
+    # ----------「やったぜ」と返す----------
+    if isCommand(message,"yattaze$"):
+        await message.reply("やったぜ")
+        return
+
     # ----------”giphy”からgif画像を取って貼り付ける（ねこ）----------
     if isCommand(message,"cat$"):
         await message.reply("https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif")
@@ -545,14 +553,12 @@ async def on_message(message):
         await message.reply(f"Pong!\nSIGES BotのPing値は{ping}msです。")
         return
 
-    # ----------「やったぜ」と返す----------
-    if isCommand(message,"yattaze$"):
-        await message.reply("やったぜ")
-        return
 
     # ----------BOTが返信して挨拶する----------
     if isCommand(message,"greet$"):
-        await message.reply(":smiley: :wave: Hello, there!")
+        member_id = 111111111111111111
+        member = message.guild.get_member(member_id)
+        await message.reply(f":smiley: :wave: {message.author.mention}さん、こんにちは！SIGES BOTです！")
         return
 
     # ----------おみくじを引く----------
@@ -563,7 +569,7 @@ async def on_message(message):
 
 
     # ----------足し算----------
-    if isCommand(message,"add [0-9]+?"):
+    if isCommand(message,"add(|ition) [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = 0
         for i in range(len(data)):
@@ -572,7 +578,7 @@ async def on_message(message):
         return
 
     # ----------引き算----------
-    if isCommand(message,"add [0-9]+?"):
+    if isCommand(message,"sub(|traction) [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = 0
         for i in range(len(data)):
@@ -580,7 +586,7 @@ async def on_message(message):
         await message.reply(ans)
 
     # ----------掛け算----------
-    if isCommand(message,"mul [0-9]+?"):
+    if isCommand(message,"mul(|tiplication) [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = 0
         for i in range(len(data)):
@@ -589,7 +595,7 @@ async def on_message(message):
         return
 
     # ----------割り算----------
-    if isCommand(message,"div [0-9]+?"):
+    if isCommand(message,"div(|ision) [0-9]+?"):
         data = re.findall(r'\d+',message.content)
         ans = float(data[0])
         try:
@@ -859,13 +865,23 @@ async def on_message(message):
 
     # 使用可能コマンドを確認
     if isCommand(message,"help$"):
-        embedData = discord.Embed(title = "使用可能コマンド一覧", description = "現在メンテナンス中", color = discord.Colour(0x2ecc71))
+        embedData = discord.Embed(title = "使用可能コマンド一覧", description = "", color = discord.Colour(0x2ecc71))
+        embedData.add_field(name = "**$info**", value = "SIGES BOTの各種情報を表示します", inline = False)
+        embedData.add_field(name = "**$addition**", value = "足し算をします\n$addと省略可能です。", inline = False)
+        embedData.add_field(name = "**$division**", value = "割り算をします\n$divと省略可能です", inline = False)
+        embedData.add_field(name = "**$eval**", value = "eval関数によって複雑な計算が可能です。\n詳しくは算術演算子とmathライブラリをご確認ください。", inline = False)
+        embedData.add_field(name = "**$greet**", value = "挨拶します！", inline = False)
+        embedData.add_field(name = "**$multiplication**", value = "掛け算をします\n$mulと省略可能です", inline = False)
         embedData.add_field(name = "**$number**", value = "１から１０までの数字のリアクションを追加します")
-        embedData.add_field(name = "**$repeat**", value = "BOTは打った文字をオウム返ししてくれます", inline = False)
-        embedData.add_field(name = "**$question**", value = "⭕ ❌質問や、多項目の質問を作成します\n詳しくは\"$question help\"で確認できます", inline = False)
+        embedData.add_field(name = "**$omikuji**", value = "おみくじを引きます", inline = False)
         embedData.add_field(name = "**$ping**", value = "BOTのping値を返します", inline = False)
+        embedData.add_field(name = "**$question**", value = "⭕ ❌質問や、多項目の質問を作成します\n詳しくは\"$question help\"で確認できます", inline = False)
+        embedData.add_field(name = "**$repeat**", value = "BOTは打った文字をオウム返ししてくれます", inline = False)
+        embedData.add_field(name = "**$subtraction**", value = "引き算をします\n$subと省略可能です", inline = False)
+        embedData.add_field(name = "**$splityen**", value = "金額から金種を逆算します。\n$spyと省略可能です", inline = False)
+        embedData.add_field(name = "**$combineyen**", value = "各金種の枚数から合計金額を算出します\n詳しくは、$combineyen help または $com help", inline = False)
+        embedData.add_field(name = "**$zatugaku**", value = "様々な雑学をランダムで提供します。\n随時更新中。", inline = False)
         '''
-        embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
         embedData.add_field(name = "**$number**", value = "ping値を返します", inline = False)
