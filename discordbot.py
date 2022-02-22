@@ -70,7 +70,10 @@ class YTDLSource(discord.PCMVolumeTransformer):
 # ---------------------------------- #
 # -------- 雑学集用クラス定義 ------- #
 # ---------------------------------- #
+<<<<<<< HEAD
 
+=======
+>>>>>>> d361980163ae81546903e69f4cf51cfebb9cdc8e
 class Zatugaku:
     def __init__(self, score, title, description, fromorkinds, url, thumbnail, point):
         for key,value in locals().items():
@@ -366,7 +369,10 @@ Zatulist = [Zatugaku(
             #        "n"
             #        )
 ]
+<<<<<<< HEAD
 
+=======
+>>>>>>> d361980163ae81546903e69f4cf51cfebb9cdc8e
 # -------------------------------
 # ----------ボットの定義----------
 # -------------------------------
