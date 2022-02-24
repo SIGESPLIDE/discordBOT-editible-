@@ -5,16 +5,10 @@
 # -------------------------------------------- #
 
 # 標準パッケージじゃない
-from curses import keyname
-from distutils.log import error
-from http.client import FORBIDDEN
-from multiprocessing.connection import Client
-from webbrowser import get
 import timeout_decorator
 import discord
-from discord.utils import get
-import math
 import Zatugaku
+import Zatugaku_def
 
 #import youtube_dl
 #from requests import get
@@ -80,15 +74,22 @@ async def errorMessage(message,err):
     # 送信
     await message.channel.send(embed = embedData)
 
-def on_command_error(err):
+'''def on_command_error(err):
     return err(
-        f"{err}\n"+
-        "  ＊*****************************************************************＊\n"+
-        " ＊ 　  このエラーメッセージは、あなたのサーバーでメッセージの送信、   ＊\n"+
-        "＊       または削除の権限がうまく設定されていないために発生します。     ＊\n"+
-        " ＊より高度な権限を持つロールの付与をすることで解決できる場合があります＊\n"+
-        "  ＊*****************************************************************＊\n"
-        )
+        "  ＊  *****************************************************************  ＊\n"+
+        " ＊   　  このエラーメッセージは、あなたのサーバーでメッセージの送信、     ＊\n"+
+        "＊       または削除の権限がうまく設定されていない場合等に発生します。       ＊\n"+
+        " ＊  より高度な権限を持つロールの付与をすることで解決できる場合があります  ＊\n"+
+        "  ＊  *****************************************************************  ＊\n"+
+        "\n\n"+
+        "        *************************************************************\n"+
+        "        *   This error message may appear in the following cases    *\n"+
+        "        *     The permission to send or delete messages is not      *\n"+
+        "        *              properly configured on the server.           *\n"+
+        "        *              You may be able to resolve this by           *\n"+
+        "        *       Setting a role with higher permissions may help.    *\n"+
+        "        *************************************************************\n"
+        )'''
 
 
 
@@ -117,26 +118,37 @@ async def on_message(message):
 
         # ----------オウム返し----------
         if isCommand(message,"rep(|eat)$") or isCommand(message,"rep(|eat)"):
-            await message.delete()
+            '''
+              ＊**********************************************＊
+             ＊　このコマンドは <:メッセージ削除の権限:> を    ＊
+            ＊  付与することで、完全な効果を発揮します　　　　＊
+            ＊ 不足している場合でも メッセージの送信自体は    ＊
+             ＊  可能なので状況に応じて権限設定を行ってください ＊
+              ＊**********************************************＊
+            '''
             try:
-                repData  = message.content.split("\\")
-                repType  = repData[1]
-            except IndexError:
-                embedData = discord.Embed(
-                    title       = "⚠️Error内容⚠️",
-                    description = "",
-                    color       = discord.Colour(0xED4245)
-                )
-                embedData.add_field(
-                    name  = "```Index Error```",
-                    value = "$repeatの後ろに*空白を入れずに*、"+"`\`"+"<--バックスラッシュ-- を入れて\nその後ろに繰り返したい文字を入れてください"
-                )
-                embedData.set_thumbnail(url = "https://cdn.discordapp.com/emojis/570190733978632214.webp?size=96&quality=lossless")
-                await message.channel.send(embed = embedData)
+                await message.delete()
+                try:
+                    repData  = message.content.split("\\")
+                    repType  = repData[1]
+                except IndexError:
+                    embedData = discord.Embed(
+                        title       = "⚠️Error内容⚠️",
+                        description = "",
+                        color       = discord.Colour(0xED4245)
+                    )
+                    embedData.add_field(
+                        name  = "```Index Error```",
+                        value = "$repeatの後ろに*空白を入れずに*、"+"`\`"+"<--バックスラッシュ-- を入れて\nその後ろに繰り返したい文字を入れてください"
+                    )
+                    embedData.set_thumbnail(url = "https://cdn.discordapp.com/emojis/570190733978632214.webp?size=96&quality=lossless")
+                    await message.channel.send(embed = embedData)
+            except:
+                print("！！<<メッセージ削除に失敗しました>>")
 
             try:
                 await message.channel.send(repType)
-            except Exception as e:
+            except 50013 as e:
                 print(e.args)
             return
 
@@ -196,27 +208,42 @@ async def on_message(message):
 
         # ----------雑学集ランダム表示----------
         if isCommand(message,"zatu(|gaku)"):
-            data = random.choice(Zatugaku.Zatugaku.Zlist)
-            #print(data)---debug---
+            #print(data)#---debug---
+            try:
+                zatuData  = message.content.split(" ")
+                zatuType  = zatuData[1]
+            except:
+                zatuType  = None
 
-            if not data or not data[2]:
-                await errorMessage(message,"Unknown Data L532")
+            if   zatuType == "動物":
+                data = Zatugaku_def.FOKdoubutu()
+                #print("douを選択")   #---デバッグ用---#
+
+            elif zatuType == "生活":
+                data = Zatugaku_def.FOKseikatu()
+                #print("seiを選択")   #---デバッグ用---#
+
+            elif zatuType is None:
+                data = random.choice(Zatugaku.Zatugaku.Zlist)
+                #print("Noneを選択")  #---デバッグ用---#
+
+            elif zatuType != "doubutu" or "dou" or"seikatu" or "sei" or None:
+                await message.channel.send("コマンドが間違っています。")
                 return
 
-            else:
-                embedData       = discord.Embed(
-                    title       = data[1],
-                    description = f"そんなの知らなかった！ ～{data[3]}に関する雑学～",
-                    url         = data[4]
-                )
-                embedData.add_field(
-                    name  = data[0],
-                    value = "\n"+data[2]
-                )
-                embedData.set_footer(
-                    text = "カテゴリー:"+data[3]
-                )
-                await message.channel.send(embed = embedData)
+            embedData   = discord.Embed(
+            title       = data[1],
+            description = f"そんなの知らなかった！ ～{data[3]}に関する雑学～",
+            url         = data[4]
+            )
+            embedData.add_field(
+                name  = data[0],
+                value = "\n"+data[2]
+            )
+            embedData.set_footer(
+                text = "カテゴリー:"+data[3]
+            )
+            await message.channel.send(embed = embedData)
             return
 
         # ----------SIGES BOTのping値を返します----------
@@ -315,7 +342,7 @@ async def on_message(message):
                 icon_url = "https://cdn.discordapp.com/avatars/360028497202118657/32420042fa4b4550bdc66a747089da14.webp?size=128"
             )
             embedData.set_thumbnail(
-                url = "https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100"
+                url  = "https://cdn.discordapp.com/avatars/933370022296965160/8255741edc4afc8f9735197825b92185.webp?size=100"
             )
             embedData.set_footer(
                 text = "this is Pre-release Discord bot"
@@ -623,8 +650,8 @@ async def on_message(message):
             await message.add_reaction("❓")
             await message.add_reaction("🤔")
 
-    except Exception:
-        print(on_command_error(str))
+    except Exception as e:
+        print(e.args)
 
 
 # Bot起動
