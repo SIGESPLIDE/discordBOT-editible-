@@ -42,7 +42,6 @@ graph LR
     main>"<h2>メインコマンド</h2>"]
     mainfo(基本コマンド)
     main0[(BOT情報)]---main1
-    main0.0[(a)]
     main0---main2
     main1[使用可能コマンドを確認できます]-->help{"<h3>＄help</h3>"}
     main2[SIGES BOTの各種情報を表示します]-->info{"<h3>＄info</h3>"}
