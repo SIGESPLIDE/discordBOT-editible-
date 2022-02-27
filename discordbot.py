@@ -5,6 +5,7 @@
 # -------------------------------------------- #
 
 # 標準パッケージじゃない
+from ast import Pass
 import timeout_decorator
 import discord
 import Zatugaku
@@ -218,32 +219,56 @@ async def on_message(message):
             if   zatuType == "動物":
                 data = Zatugaku_def.FOKdoubutu()
                 #print("douを選択")   #---デバッグ用---#
+                zatulistembed = True
 
             elif zatuType == "生活":
                 data = Zatugaku_def.FOKseikatu()
                 #print("seiを選択")   #---デバッグ用---#
+                zatulistembed = True
+
+            elif zatuType == "リスト":
+                data = Zatugaku_def.FOKlist()
+                zatulistembed = False
 
             elif zatuType is None:
                 data = random.choice(Zatugaku.Zatugaku.Zlist)
                 #print("Noneを選択")  #---デバッグ用---#
+                zatulistembed = True
 
             elif zatuType != "doubutu" or "dou" or"seikatu" or "sei" or None:
                 await message.channel.send("コマンドが間違っています。")
                 return
 
-            embedData   = discord.Embed(
-            title       = data[1],
-            description = f"そんなの知らなかった！ ～{data[3]}に関する雑学～",
-            url         = data[4]
-            )
-            embedData.add_field(
-                name  = data[0],
-                value = "\n"+data[2]
-            )
-            embedData.set_footer(
-                text = "カテゴリー:"+data[3]
-            )
-            await message.channel.send(embed = embedData)
+            if zatulistembed == False:
+                embedData       = discord.Embed(
+                    title       = "雑学カテゴリーリスト",
+                    description = "",
+                    color       = discord.Colour(0x1f8b4c)
+                )
+                lrange = Zatugaku_def.FOKlist()
+                print(f"lrange=\n{lrange}")
+            for i in range(len(lrange)):
+                embedData.add_field(
+                    name     = i,
+                    value    = f"**{lrange[i]}**",
+                    inline   = False
+                )
+            await message.channel.send(embed=embedData)
+
+            if zatulistembed == True:
+                embedData     = discord.Embed(
+                title         = data[1],
+                description   = f"そんなの知らなかった！ ～{data[3]}に関する雑学～",
+                url           = data[4]
+                )
+                embedData.add_field(
+                    name      = data[0],
+                    value     = "\n"+data[2]
+                )
+                embedData.set_footer(
+                    text      = "カテゴリー:"+data[3]
+                )
+                await message.channel.send(embed=embedData)
             return
 
         # ----------SIGES BOTのping値を返します----------
