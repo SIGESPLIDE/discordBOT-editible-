@@ -1,7 +1,7 @@
 # SIGES BOT取扱説明書
 
-開発環境:rpi4(8gb) python v3.7.3
-必要用件:python v3.7.3
+開発環境: python v3.10.6
+必要用件:python v3.10.6
 
 ## -必要permission-
 
@@ -24,12 +24,39 @@ Text
 | Add Reactions
 ```
 
-## -起動-
+## -BOTの起動-
+トークンをそのまま入力する場合
 
-```text
+```python
 DISCORD_BOT_TOKEN=<YOUR BOT TOKEN>
+```
+起動
+```powershell
+$ python3 discordbot.py
+```
+
+---
+
+トークンを同一フォルダ内の別ファイルで保管する場合
+
+```python
+import os
+
+client.run(os.getenv("BOT_TOKEN"))
+```
+
+ファイル名：start.sh
+
+```plaintext
+export BOT_TOKEN="YOUR BOT TOKEN"
 python3 discordbot.py
 ```
+
+起動
+```powershell
+$ ./start.sh
+```
+
 
 ## -botｺﾏﾝﾄﾞ-
 
